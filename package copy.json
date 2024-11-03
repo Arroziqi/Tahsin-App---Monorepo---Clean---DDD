@@ -1,0 +1,27 @@
+{
+  "name": "my-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "concurrently \"npm run dev:nest\" \"npm run dev:next\" \"npm run dev:expo\"",
+    "dev:nest": "cd apps/api && npm run dev",
+    "dev:next": "cd apps/web && npm run dev",
+    "dev:expo": "cd apps/mobile/src && npx expo start",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "prettier": "^3.2.5",
+    "turbo": "^2.2.3",
+    "typescript": "5.5.4"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.9.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

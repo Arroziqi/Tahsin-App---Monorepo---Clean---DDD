@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "dev": "concurrently  \"npm run dev:expo\"",
+    "dev:expo": "cd src && npx expo start"
+  }
+}
