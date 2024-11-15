@@ -8,26 +8,20 @@ import {
   Query,
 } from '@nestjs/common';
 import { SignupUsecase } from '../domain/usecases/signup.usecase';
-import { SignupDto } from './dto/signup.dto';
 import { DataState } from 'src/core/resources/data.state';
 import { UserModel } from '../data/models/user.model';
+import { SignupUserPipe } from '../pipes/signup.user.pipe';
 
 @Controller('/api/users')
 export class AuthController {
   constructor(private readonly signupUsecase: SignupUsecase) {}
 
   @Post('/signup')
-  async signUp(@Body() request: SignupDto): Promise<DataState<any>> {
+  async signUp(
+    @Body(SignupUserPipe) request: UserModel,
+  ): Promise<DataState<UserModel>> {
     try {
-      const userModel = new UserModel(
-        0,
-        request.username,
-        request.email,
-        request.password,
-        1,
-      );
-
-      return await this.signupUsecase.execute(userModel);
+      return await this.signupUsecase.execute(request);
     } catch (error) {
       throw new HttpException(
         {

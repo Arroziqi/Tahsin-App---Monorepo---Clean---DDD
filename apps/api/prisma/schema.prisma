@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id             Int      @id @default(autoincrement())
+  name           String   @db.VarChar(255)
+  place_of_birth String   @db.VarChar(255)
+  date_of_birth  DateTime @db.Date
+  address        String   @db.VarChar(255)
+  domicile       String   @db.VarChar(255)
+  phone_number   Int
+  profession     String   @db.VarChar(255)
+  users          User[]
+}
+
+model Registration {
+  id             Int     @id @default(autoincrement())
+  motivation     String  @db.VarChar(255)
+  user_id        Int
+  batch_id       Int
+  payment_status String  @db.VarChar(255)
+  class_type     String  @db.VarChar(255)
+  voice_note     String? @db.VarChar(255)
+  schedule       String  @db.VarChar(255)
+  user           User    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "registration_user_id_foreign")
+}
+
+model Role {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique(map: "roles_name_unique") @db.VarChar(255)
+  users User[]
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  email        String         @unique(map: "users_email_unique") @db.VarChar(255)
+  password     String         @db.VarChar(255)
+  username     String         @db.VarChar(255)
+  role_id      Int            @default(2)
+  profile_id   Int?
+  registrations Registration[]
+  profile      Profile?       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_profile_id_foreign")
+  role         Role           @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_role_id_foreign")
+}

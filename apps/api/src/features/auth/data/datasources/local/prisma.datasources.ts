@@ -1,38 +1,57 @@
 import { DataState } from 'src/core/resources/data.state';
 import { UserModel } from '../../models/user.model';
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/common/services/prisma.service';
 
 export interface PrismaDataSources {
-  findByEmail(email: string): Promise<DataState<UserModel>>;
+  findByEmail(email: string): Promise<DataState<UserModel[]>>;
   create(user: UserModel): Promise<DataState<UserModel>>;
 }
 
 @Injectable()
 export class PrismaDataSourcesImpl implements PrismaDataSources {
-  findByEmail(email: string): Promise<DataState<UserModel>> {
-    return Promise.resolve({
-      data: {
-        id: 1,
-        username: 'username',
-        email: 'email',
-        password: 'password',
-        role_id: 1,
-        profile_id: 1,
+  constructor(private prismaService: PrismaService) {}
+  async findByEmail(email: string): Promise<DataState<UserModel[]>> {
+    const users = await this.prismaService.user.findMany({
+      where: {
+        email: email,
       },
-      error: null,
     });
+
+    return {
+      data: users.map((user) => ({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        role_id: user.role_id,
+        profile_id: user.profile_id ?? null,
+      })),
+      error: undefined,
+    };
   }
-  create(user: UserModel): Promise<DataState<UserModel>> {
+
+  async create(user: UserModel): Promise<DataState<UserModel>> {
+    const data = await this.prismaService.user.create({
+      data: {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        role_id: user.role_id,
+        profile_id: user.profile_id,
+      },
+    });
+
     return Promise.resolve({
       data: {
-        id: 2,
-        username: 'ah masa berhasil sii',
-        email: 'email',
-        password: 'password',
-        role_id: 1,
-        profile_id: 1,
+        id: data.id,
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        role_id: data.role_id,
+        profile_id: data.profile_id,
       },
-      error: null,
+      error: undefined,
     });
   }
 }
