@@ -1,10 +1,11 @@
+
 export class UserEntity {
   id: number;
   username: string;
   email: string;
   password: string;
   role_id: number;
-  profile_id?: number;
+  profile_id?: number | null;
 
   constructor(
     id: number,
@@ -12,7 +13,7 @@ export class UserEntity {
     email: string,
     password: string,
     role_id: number,
-    profile_id?: number,
+    profile_id?: number | null,
   ) {
     this.id = id;
     this.username = username;

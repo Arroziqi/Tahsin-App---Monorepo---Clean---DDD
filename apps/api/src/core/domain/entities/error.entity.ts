@@ -1,11 +1,11 @@
 export class ErrorEntity {
-  code: number;
+  statusCode: number;
   message: string;
-  details?: any;
+  errors: any;
 
-  constructor(code: number, message: string, details?: any) {
-    this.code = code;
+  constructor(statusCode: number, message: string, errors: string = 'Error') {
+    this.statusCode = statusCode;
     this.message = message;
-    this.details = details;
+    this.errors = errors;
   }
 }

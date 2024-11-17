@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthModule } from '../auth.module';
 import * as request from 'supertest';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 
 describe('AuthController', () => {
   let app: INestApplication;
@@ -12,6 +12,9 @@ describe('AuthController', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(
+      new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
+    );
     await app.init();
   });
 
@@ -30,10 +33,11 @@ describe('AuthController', () => {
     const response = await request(app.getHttpServer())
       .post('/api/users/signup')
       .send({
-        username: 'ahmad',
-        email: 'ahmad@gmail.com',
-        password: 'pw123',
-      })
+        "username": "ahmad",
+        "email": "ahmad@gmail",
+        "password": "pw123"
+      }
+      )
       .expect(201); // Mengharapkan status kode 201 untuk berhasil dibuat
 
     console.log(response.body);
