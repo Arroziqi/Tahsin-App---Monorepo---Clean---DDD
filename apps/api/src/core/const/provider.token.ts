@@ -1,1 +1,2 @@
 export const USER_REPO_TOKEN = 'USER_REPO_TOKEN';
+export const ROLE_REPO_TOKEN = 'ROLE_REPO_TOKEN';

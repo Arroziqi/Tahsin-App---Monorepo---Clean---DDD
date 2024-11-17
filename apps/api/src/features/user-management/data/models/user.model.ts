@@ -1,13 +1,19 @@
 import { Exclude } from "class-transformer";
+import { RoleModel } from "./role.model";
 
 export class UserModel {
   id: number;
-  username: string;
   email: string;
   @Exclude()
   password: string;
+  username: string;
   role_id: number;
-  profile_id?: number | null;
+  profile_id?: number;
+
+  // Relasi
+  // registrations?: RegistrationEntity[];
+  // profile?: ProfileEntity;
+  role?: RoleModel;
 
   constructor(data: Partial<UserModel>) {
     Object.assign(this, data);

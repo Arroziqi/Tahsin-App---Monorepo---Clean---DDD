@@ -16,7 +16,7 @@ export class DataSuccess<T> extends DataState<T> {
   }
 }
 
-export class DataFailed extends DataState<null> {
+export class DataFailed<T> extends DataState<T> {
   constructor(error: ErrorEntity) {
     super(undefined, error);
   }

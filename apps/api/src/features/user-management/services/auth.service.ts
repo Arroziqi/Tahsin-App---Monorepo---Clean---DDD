@@ -6,14 +6,7 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
   mapDataModelToEntity(dataModel: UserModel): UserEntity {
-    return new UserEntity(
-      dataModel.id!,
-      dataModel.username,
-      dataModel.email,
-      dataModel.password,
-      dataModel.role_id!,
-      dataModel.profile_id,
-    );
+    return new UserEntity(dataModel);
   }
 
   async hashedPassword(password: string): Promise<string> {

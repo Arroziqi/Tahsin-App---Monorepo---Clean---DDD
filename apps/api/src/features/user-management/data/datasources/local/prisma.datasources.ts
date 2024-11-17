@@ -11,22 +11,21 @@ export interface PrismaDataSources {
 @Injectable()
 export class PrismaDataSourcesImpl implements PrismaDataSources {
   constructor(private prismaService: PrismaService) {}
-  async findByEmail(email: string): Promise<DataState<UserModel[]>> {
+  async findByEmail(
+    email: string,
+    includeRole?: boolean,
+  ): Promise<DataState<UserModel[]>> {
     const users = await this.prismaService.user.findMany({
       where: {
         email: email,
       },
+      include: {
+        role: includeRole,
+      },
     });
 
     return {
-      data: users.map((user) => ({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        password: user.password,
-        role_id: user.role_id,
-        profile_id: user.profile_id ?? null,
-      })),
+      data: users.map((user) => new UserModel({...user, role: includeRole ? user.role : undefined})),
       error: undefined,
     };
   }

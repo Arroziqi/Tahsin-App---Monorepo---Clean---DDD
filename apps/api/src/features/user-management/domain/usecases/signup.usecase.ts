@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { UseCase } from 'src/core/domain/usecases/usecase';
 import { UserEntity } from '../entities/user.entity';
 import { DataState } from 'src/core/resources/data.state';
@@ -11,26 +11,35 @@ import { AuthService } from '../../services/auth.service';
 export class SignupUsecase
   implements UseCase<UserEntity, DataState<UserEntity>>
 {
+  private readonly logger = new Logger(SignupUsecase.name);
+
   constructor(
     @Inject(USER_REPO_TOKEN) private readonly userRepository: UserRepository,
     private readonly authService: AuthService,
   ) {}
+
   async execute(input: UserEntity): Promise<DataState<UserEntity>> {
     const userWithSameEmail = await this.userRepository.findByEmail(
       input.email,
+      true,
     );
 
-    console.log(userWithSameEmail);
+    this.logger.debug(
+      `Checking email existence: ${input.email}`,
+      JSON.stringify(userWithSameEmail, null, 2)
+    );
 
     if (userWithSameEmail.data.length > 0) {
-      throw new ErrorEntity(409, 'Email already exist', 'Email already exist');
+      this.logger.warn(`Signup attempt with existing email: ${input.email}`);
+      throw new ErrorEntity(409, 'Email already exist, please use another email', 'Email already exist');
     }
 
-    const hashedPassword = await this.authService.hashedPassword(
-      input.password,
-    );
+    const hashedPassword = await this.authService.hashedPassword(input.password);
     input.password = hashedPassword;
 
-    return this.userRepository.create(input);
+    const result = await this.userRepository.create(input);
+    this.logger.log(`New user created with email: ${input.email}`);
+    
+    return result;
   }
 }
