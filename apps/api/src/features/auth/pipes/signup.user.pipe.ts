@@ -17,6 +17,12 @@ export class SignupUserPipe implements PipeTransform {
 
     const { username, email, password } = result.data;
 
-    return new UserModel(0, username, email, password, 2);
+    return new UserModel({
+      id: 0,
+      username,
+      email,
+      password,
+      role_id: 2
+    });
   }
 }

@@ -8,6 +8,6 @@ export class AppService {
     return 'Hello World!';
   }
   getPort(): number {
-    return this.configService.get<number>('PORT') || 5000;
+    return this.configService.get<number>('PORT');
   }
 }
