@@ -1,11 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { UseCase } from 'src/core/domain/usecases/usecase';
-import { UserEntity } from '../entities/user.entity';
 import { DataState } from 'src/core/resources/data.state';
-import { UserRepository } from '../repository/user.repository';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
 import { USER_REPO_TOKEN } from 'src/core/const/provider.token';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from 'src/features/user-management/services/auth.service';
+import { UserEntity } from '../../entities/user.entity';
+import { UserRepository } from '../../repository/user.repository';
 
 @Injectable()
 export class SignupUsecase
@@ -33,9 +33,6 @@ export class SignupUsecase
       this.logger.warn(`Signup attempt with existing email: ${input.email}`);
       throw new ErrorEntity(409, 'Email already exist, please use another email', 'Email already exist');
     }
-
-    const hashedPassword = await this.authService.hashedPassword(input.password);
-    input.password = hashedPassword;
 
     const result = await this.userRepository.create(input);
     this.logger.log(`New user created with email: ${input.email}`);

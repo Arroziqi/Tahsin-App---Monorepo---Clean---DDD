@@ -3,6 +3,7 @@ import { RoleRepository } from "../../domain/repository/role.repository";
 import { DataState } from "../../../../core/resources/data.state";
 import { RoleEntity } from "../../domain/entities/role.entity";
 import { ROLE_REPO_TOKEN } from "../../../../core/const/provider.token";
+import { RoleModel } from "../models/role.model";
 
 @Injectable()
 export class RoleRepositoryImpl implements RoleRepository {
@@ -11,21 +12,21 @@ export class RoleRepositoryImpl implements RoleRepository {
   ) { }
 
   async findById(id: number, includeUsers?: boolean): Promise<DataState<RoleEntity>> {
-    throw new Error("Method not implemented.");
+    return await this.roleRepository.findById(id, includeUsers);
   }
   async findByName(name: string, includeUsers?: boolean): Promise<DataState<RoleEntity>> {
     return await this.roleRepository.findByName(name, includeUsers);
   }
   async findAll(includeUsers?: boolean): Promise<DataState<RoleEntity[]>> {
-    throw new Error("Method not implemented.");
+    return await this.roleRepository.findAll(includeUsers);
   }
-  create(role: RoleEntity): Promise<DataState<RoleEntity>> {
-    throw new Error("Method not implemented.");
+  async create(role: RoleEntity): Promise<DataState<RoleEntity>> {
+    return await this.roleRepository.create(role);
   }
-  update(role: RoleEntity): Promise<DataState<RoleEntity>> {
-    throw new Error("Method not implemented.");
+  async update(role: RoleEntity): Promise<DataState<RoleEntity>> {
+    return await this.roleRepository.update(role);
   }
-  delete(id: number): Promise<DataState<null>> {
-    throw new Error("Method not implemented.");
+  async delete(id: number): Promise<DataState<null>> {
+    return await this.roleRepository.delete(id);
   }
 }

@@ -8,15 +8,15 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
-import { SignupUsecase } from '../domain/usecases/signup.usecase';
 import { DataState } from 'src/core/resources/data.state';
-import { UserModel } from '../data/models/user.model';
-import { SignupUserPipe } from '../pipes/signup.user.pipe';
-import { UserInterceptor } from '../interceptors/user.interceptor';
+import { UserModel } from '../../data/models/user.model';
+import { SignupUserPipe } from '../../pipes/signup.user.pipe';
+import { UserInterceptor } from '../../interceptors/user.interceptor';
+import { SignupUsecase } from '../../domain/usecases/auth/signup.usecase';
 
 @Controller('/api/users')
 export class AuthController {
-  constructor(private readonly signupUsecase: SignupUsecase) {}
+  constructor(private readonly signupUsecase: SignupUsecase) { }
 
   @Post('/signup')
   @UseInterceptors(UserInterceptor)
