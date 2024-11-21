@@ -3,7 +3,6 @@ import { UseCase } from 'src/core/domain/usecases/usecase';
 import { DataState } from 'src/core/resources/data.state';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
 import { USER_REPO_TOKEN } from 'src/core/const/provider.token';
-import { AuthService } from 'src/features/user-management/services/auth.service';
 import { UserEntity } from '../../entities/user.entity';
 import { UserRepository } from '../../repository/user.repository';
 
@@ -15,7 +14,6 @@ export class SignupUsecase
 
   constructor(
     @Inject(USER_REPO_TOKEN) private readonly userRepository: UserRepository,
-    private readonly authService: AuthService,
   ) {}
 
   async execute(input: UserEntity): Promise<DataState<UserEntity>> {
@@ -26,17 +24,21 @@ export class SignupUsecase
 
     this.logger.debug(
       `Checking email existence: ${input.email}`,
-      JSON.stringify(userWithSameEmail, null, 2)
+      JSON.stringify(userWithSameEmail, null, 2),
     );
 
-    if (userWithSameEmail.data.length > 0) {
+    if (userWithSameEmail.data) {
       this.logger.warn(`Signup attempt with existing email: ${input.email}`);
-      throw new ErrorEntity(409, 'Email already exist, please use another email', 'Email already exist');
+      throw new ErrorEntity(
+        409,
+        'Email already exist, please use another email',
+        'Email already exist',
+      );
     }
 
     const result = await this.userRepository.create(input);
     this.logger.log(`New user created with email: ${input.email}`);
-    
+
     return result;
   }
 }
