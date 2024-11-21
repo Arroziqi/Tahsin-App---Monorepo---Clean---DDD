@@ -15,6 +15,9 @@ export abstract class UserRepositoryImpl implements UserRepository {
   ): Promise<DataState<UserEntity>> {
     return await this.userRepository.findByEmail(email, includeRole);
   }
+  async findById(id: number, includeRole?: boolean): Promise<DataState<UserEntity>> {
+    return await this.userRepository.findById(id, includeRole);
+  }
   async create(user: UserEntity): Promise<DataState<UserEntity>> {
     return await this.userRepository.create(user);
   }

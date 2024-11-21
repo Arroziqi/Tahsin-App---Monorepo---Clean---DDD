@@ -8,6 +8,7 @@ import {
   Logger,
   UseGuards,
   Request,
+  Get,
 } from '@nestjs/common';
 import { DataState } from 'src/core/resources/data.state';
 import { UserModel } from '../../data/models/user.model';
@@ -16,6 +17,8 @@ import { UserInterceptor } from '../../interceptors/user.interceptor';
 import { SignupUsecase } from '../../domain/usecases/auth/signup.usecase';
 import { LocalAuthGuard } from '../../guards/local-auth/local.auth.guard';
 import { AuthService } from '../../services/auth.service';
+import { JwtAuthGuard } from '../../guards/jwt-auth/jwt.auth.guard';
+import { RefreshAuthGuard } from '../../guards/refresh-auth/refresh.auth.guard';
 
 @Controller('/api/users')
 @UseInterceptors(UserInterceptor)
@@ -59,7 +62,9 @@ export class AuthController {
   @Post('/signin')
   @UseGuards(LocalAuthGuard)
   async login(@Request() req) {
-    this.logger.debug(`Processing signin request for user id: ${req.user.data.id}`);
+    this.logger.debug(
+      `Processing signin request for user id: ${req.user.data.id}`,
+    );
 
     try {
       const result = await this.authService.login(req.user.data);
@@ -69,6 +74,34 @@ export class AuthController {
       return result;
     } catch (error) {
       this.logger.error('Signin failed', {
+        error: error.message,
+      });
+
+      throw error;
+    }
+  }
+
+  @Get('/current')
+  @UseGuards(JwtAuthGuard)
+  async getCurrentUser(@Request() req) {
+    return req.user;
+  }
+
+  @Post('/refresh')
+  @UseGuards(RefreshAuthGuard)
+  async refreshToken(@Request() req) {
+    this.logger.debug(
+      `Processing refresh token request for user id: ${req.user.data.id}`,
+    );
+
+    try {
+      const result = await this.authService.refreshToken(req.user.data);
+
+      this.logger.debug('Refresh token completed successfully');
+
+      return result;
+    } catch (error) {
+      this.logger.error('Refresh token failed', {
         error: error.message,
       });
 
