@@ -6,5 +6,6 @@ export interface UserRepository {
     email: string,
     includeRole?: boolean,
   ): Promise<DataState<UserEntity>>;
+  findById(id: number, includeRole?: boolean): Promise<DataState<UserEntity>>;
   create(user: UserEntity): Promise<DataState<UserEntity>>;
 }

@@ -15,16 +15,20 @@ import { UpdateRoleUsecase } from './domain/usecases/role/update.usecase';
 import { DeleteRoleUsecase } from './domain/usecases/role/delete.usecase';
 import { SignupUsecase } from './domain/usecases/auth/signup.usecase';
 import { LocalStrategy } from './strategies/local.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './config/jwt.config';
 import { ConfigModule } from '@nestjs/config';
 import { PasswordService } from './services/password.service';
 import { DataService } from './services/data.service';
+import { RefreshTokenStrategy } from './strategies/refresh.token.strategy';
+import refreshConfig from './config/refresh.config';
 
 @Module({
   imports: [
     JwtModule.registerAsync(jwtConfig.asProvider()),
     ConfigModule.forFeature(jwtConfig),
+    ConfigModule.forFeature(refreshConfig),
   ],
   controllers: [AuthController, RoleController],
   providers: [
@@ -38,6 +42,8 @@ import { DataService } from './services/data.service';
     DataService,
     PrismaService,
     LocalStrategy,
+    JwtStrategy,
+    RefreshTokenStrategy,
     {
       provide: USER_REPO_TOKEN,
       useClass: PrismaDataSourcesImpl,
