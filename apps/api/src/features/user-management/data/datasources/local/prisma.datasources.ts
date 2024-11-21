@@ -1,56 +1,80 @@
 import { DataState } from 'src/core/resources/data.state';
 import { UserModel } from '../../models/user.model';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
 
 export interface PrismaDataSources {
-  findByEmail(email: string): Promise<DataState<UserModel[]>>;
+  findByEmail(email: string): Promise<DataState<UserModel>>;
   create(user: UserModel): Promise<DataState<UserModel>>;
 }
 
 @Injectable()
 export class PrismaDataSourcesImpl implements PrismaDataSources {
+  private readonly logger = new Logger(PrismaDataSourcesImpl.name);
+  
   constructor(private prismaService: PrismaService) {}
+  
   async findByEmail(
     email: string,
     includeRole?: boolean,
-  ): Promise<DataState<UserModel[]>> {
-    const users = await this.prismaService.user.findMany({
-      where: {
-        email: email,
-      },
-      include: {
-        role: includeRole,
-      },
-    });
+  ): Promise<DataState<UserModel>> {
+    try {
+      this.logger.debug(`Finding user by email: ${email}`);
+      const users = await this.prismaService.user.findFirst({
+        where: { email },
+        include: { role: includeRole },
+      });
 
-    return {
-      data: users.map((user) => new UserModel({...user, role: includeRole ? user.role : undefined})),
-      error: undefined,
-    };
+      if (!users) {
+        this.logger.debug(`No user found with email: ${email}`);
+        return { data: null, error: undefined };
+      }
+
+      this.logger.debug('User found successfully');
+      return {
+        data: new UserModel({...users, role: includeRole ? users.role : undefined}),
+        error: undefined,
+      };
+    } catch (error) {
+      this.logger.error('Error finding user by email', {
+        error: error.message,
+        stack: error.stack,
+      });
+      throw error;
+    }
   }
 
   async create(user: UserModel): Promise<DataState<UserModel>> {
-    const data = await this.prismaService.user.create({
-      data: {
-        username: user.username,
-        email: user.email,
-        password: user.password,
-        role_id: user.role_id,
-        profile_id: user.profile_id,
-      },
-    });
+    try {
+      this.logger.debug(`Creating new user with email: ${user.email}`);
+      const data = await this.prismaService.user.create({
+        data: {
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          role_id: user.role_id,
+          profile_id: user.profile_id,
+        },
+      });
 
-    return Promise.resolve({
-      data: {
-        id: data.id,
-        username: data.username,
-        email: data.email,
-        password: data.password,
-        role_id: data.role_id,
-        profile_id: data.profile_id,
-      },
-      error: undefined,
-    });
+      this.logger.debug('User created successfully');
+      return {
+        data: {
+          id: data.id,
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          role_id: data.role_id,
+          profile_id: data.profile_id,
+        },
+        error: undefined,
+      };
+    } catch (error) {
+      this.logger.error('Error creating user', {
+        error: error.message,
+        stack: error.stack,
+      });
+      throw error;
+    }
   }
 }

@@ -5,6 +5,6 @@ export interface UserRepository {
   findByEmail(
     email: string,
     includeRole?: boolean,
-  ): Promise<DataState<UserEntity[]>>;
+  ): Promise<DataState<UserEntity>>;
   create(user: UserEntity): Promise<DataState<UserEntity>>;
 }

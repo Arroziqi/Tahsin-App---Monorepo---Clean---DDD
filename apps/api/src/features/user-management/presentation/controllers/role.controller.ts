@@ -5,7 +5,6 @@ import { DataState } from "src/core/resources/data.state";
 import { GetAllRoleUsecase } from "../../domain/usecases/role/get.all.usecase";
 import { UpdateRoleUsecase } from "../../domain/usecases/role/update.usecase";
 import { DeleteRoleUsecase } from "../../domain/usecases/role/delete.usecase";
-import { ErrorEntity } from "src/core/domain/entities/error.entity";
 
 @Controller('/api/roles')
 export class RoleController {

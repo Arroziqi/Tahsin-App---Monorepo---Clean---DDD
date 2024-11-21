@@ -12,7 +12,7 @@ export abstract class UserRepositoryImpl implements UserRepository {
   async findByEmail(
     email: string,
     includeRole?: boolean,
-  ): Promise<DataState<UserEntity[]>> {
+  ): Promise<DataState<UserEntity>> {
     return await this.userRepository.findByEmail(email, includeRole);
   }
   async create(user: UserEntity): Promise<DataState<UserEntity>> {
