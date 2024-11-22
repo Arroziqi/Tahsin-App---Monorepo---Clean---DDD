@@ -14,6 +14,7 @@ import { AuthJwtPayload } from '../types/auth.jwtPayload';
 import { UserModel } from '../data/models/user.model';
 import refreshConfig from '../config/refresh.config';
 import { ConfigType } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -66,11 +67,26 @@ export class AuthService {
 
   async login(
     user: UserModel,
-  ): Promise<DataState<UserModel & { accessToken: string; refreshToken: string }>> {
+  ): Promise<
+    DataState<UserModel & { accessToken: string; refreshToken: string }>
+  > {
     try {
       this.logger.debug(`Attempting login for user ID: ${user.id}`);
 
       const { accessToken, refreshToken } = await this.generateTokens(user.id);
+
+      this.logger.debug('Hashing refresh token');
+      const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+
+      this.logger.debug(`Hashed refresh token: ${hashedRefreshToken} and refresh token: ${refreshToken}`);
+
+      this.logger.debug(
+        `Updating hashed refresh token for user ID: ${user.id}`,
+      );
+      await this.userRepository.updateHashedRefreshToken(
+        user.id,
+        hashedRefreshToken,
+      );
 
       this.logger.log(`Login successful for user ID: ${user.id}`);
 
@@ -118,7 +134,10 @@ export class AuthService {
     return user;
   }
 
-  async validateRefreshToken(userId: number): Promise<DataState<UserModel>> {
+  async validateRefreshToken(
+    userId: number,
+    refreshToken: string,
+  ): Promise<DataState<UserModel>> {
     this.logger.debug(`Validating user with ID: ${userId}`);
 
     const user = await this.userRepository.findById(userId);
@@ -128,16 +147,36 @@ export class AuthService {
       throw new UnauthorizedException('User not found!');
     }
 
+    const isRefreshTokenValid = await bcrypt.compare(refreshToken, user.data.hashedRefreshToken);
+
+    if (!isRefreshTokenValid) {
+      this.logger.warn(`Invalid refresh token for user ID: ${userId}`);
+      throw new UnauthorizedException('Invalid refresh token!');
+    }
+
     return user;
   }
 
   async refreshToken(
     user: UserModel,
-  ): Promise<DataState<UserModel & { accessToken: string; refreshToken: string }>> {
+  ): Promise<
+    DataState<UserModel & { accessToken: string; refreshToken: string }>
+  > {
     try {
       this.logger.debug(`Attempting refresh token for user ID: ${user.id}`);
 
       const { accessToken, refreshToken } = await this.generateTokens(user.id);
+
+      this.logger.debug('Hashing refresh token');
+      const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+
+      this.logger.debug(
+        `Updating hashed refresh token for user ID: ${user.id}`,
+      );
+      await this.userRepository.updateHashedRefreshToken(
+        user.id,
+        hashedRefreshToken,
+      );
 
       this.logger.log(`Refresh token successful for user ID: ${user.id}`);
 
@@ -145,6 +184,24 @@ export class AuthService {
     } catch (error) {
       this.logger.error(`Refresh token failed for user ID: ${user.id}`);
       throw new UnauthorizedException('Refresh token failed');
+    }
+  }
+
+  async logout(userId: number): Promise<DataState<String>> {
+    try {
+      this.logger.debug(`Attempting logout for user ID: ${userId}`);
+
+      await this.userRepository.updateHashedRefreshToken(userId, null);
+
+      this.logger.log(`Logout successful for user ID: ${userId}`);
+
+      return new DataSuccess('Logout successful');
+    } catch (error) {
+      this.logger.error(
+        `Logout failed for user ID: ${userId}: ${error.message}`,
+      );
+
+      throw new InternalServerErrorException('Logout failed');
     }
   }
 }

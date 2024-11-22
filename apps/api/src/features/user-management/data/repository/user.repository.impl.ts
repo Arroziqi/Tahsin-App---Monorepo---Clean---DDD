@@ -21,4 +21,7 @@ export abstract class UserRepositoryImpl implements UserRepository {
   async create(user: UserEntity): Promise<DataState<UserEntity>> {
     return await this.userRepository.create(user);
   }
+  async updateHashedRefreshToken(userId: number, hashedRefreshToken: string | null): Promise<DataState<String>> {
+    return await this.userRepository.updateHashedRefreshToken(userId, hashedRefreshToken);
+  }
 }

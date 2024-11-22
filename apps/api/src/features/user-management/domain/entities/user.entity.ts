@@ -7,7 +7,7 @@ export class UserEntity {
   username: string;
   role_id: number;
   profile_id?: number;
-
+  hashedRefreshToken?: string;
   // Relasi
   // registrations?: RegistrationEntity[];
   // profile?: ProfileEntity;

@@ -23,6 +23,8 @@ import { PasswordService } from './services/password.service';
 import { DataService } from './services/data.service';
 import { RefreshTokenStrategy } from './strategies/refresh.token.strategy';
 import refreshConfig from './config/refresh.config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './guards/jwt-auth/jwt.auth.guard';
 
 @Module({
   imports: [
@@ -44,6 +46,10 @@ import refreshConfig from './config/refresh.config';
     LocalStrategy,
     JwtStrategy,
     RefreshTokenStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
     {
       provide: USER_REPO_TOKEN,
       useClass: PrismaDataSourcesImpl,
