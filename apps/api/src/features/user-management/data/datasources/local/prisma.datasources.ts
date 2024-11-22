@@ -71,7 +71,6 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
         return { data: null, error: undefined };
       }
 
-      this.logger.debug('User found successfully');
       return {
         data: new UserModel({
           ...users,

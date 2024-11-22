@@ -39,7 +39,7 @@ export class AuthService {
     this.logger.debug(`Validating user with email: ${email}`);
 
     try {
-      const user = await this.userRepository.findByEmail(email);
+      const user = await this.userRepository.findByEmail(email, true);
 
       if (!user.data) {
         this.logger.warn(`User not found with email: ${email}`);
@@ -77,8 +77,6 @@ export class AuthService {
 
       this.logger.debug('Hashing refresh token');
       const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-
-      this.logger.debug(`Hashed refresh token: ${hashedRefreshToken} and refresh token: ${refreshToken}`);
 
       this.logger.debug(
         `Updating hashed refresh token for user ID: ${user.id}`,
@@ -124,7 +122,7 @@ export class AuthService {
   async validateJwtUser(userId: number): Promise<DataState<UserModel>> {
     this.logger.debug(`Validating user with ID: ${userId}`);
 
-    const user = await this.userRepository.findById(userId);
+    const user = await this.userRepository.findById(userId, true);
 
     if (!user.data) {
       this.logger.warn(`User not found with ID: ${userId}`);
@@ -140,7 +138,7 @@ export class AuthService {
   ): Promise<DataState<UserModel>> {
     this.logger.debug(`Validating user with ID: ${userId}`);
 
-    const user = await this.userRepository.findById(userId);
+    const user = await this.userRepository.findById(userId, true);
 
     if (!user.data) {
       this.logger.warn(`User not found with ID: ${userId}`);

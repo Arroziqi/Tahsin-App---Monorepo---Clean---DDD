@@ -114,7 +114,9 @@ export class AuthController {
   @Post('/signout')
   async signOut(@Request() req) {
     try {
-      this.logger.debug(`Processing signout request for user id: ${req.user.data.id}`);
+      this.logger.debug(
+        `Processing signout request for user id: ${req.user.data.id}`,
+      );
       const result = await this.authService.logout(req.user.data.id);
 
       this.logger.debug('Signout completed successfully');
@@ -123,7 +125,7 @@ export class AuthController {
     } catch (error) {
       this.logger.error('Signout failed', {
         error: error.message,
-        userId: req.user.data.id
+        userId: req.user.data.id,
       });
       throw error;
     }
