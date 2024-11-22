@@ -1,22 +1,61 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
-import { CreateRoleUsecase } from "../../domain/usecases/role/create.usecase";
-import { RoleModel } from "../../data/models/role.model";
-import { DataState } from "src/core/resources/data.state";
-import { GetAllRoleUsecase } from "../../domain/usecases/role/get.all.usecase";
-import { UpdateRoleUsecase } from "../../domain/usecases/role/update.usecase";
-import { DeleteRoleUsecase } from "../../domain/usecases/role/delete.usecase";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+  Logger,
+  Request,
+} from '@nestjs/common';
+import { CreateRoleUsecase } from '../../domain/usecases/role/create.usecase';
+import { RoleModel } from '../../data/models/role.model';
+import { DataState } from 'src/core/resources/data.state';
+import { GetAllRoleUsecase } from '../../domain/usecases/role/get.all.usecase';
+import { UpdateRoleUsecase } from '../../domain/usecases/role/update.usecase';
+import { DeleteRoleUsecase } from '../../domain/usecases/role/delete.usecase';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from '../../guards/roles/roles.guard';
 
 @Controller('/api/roles')
+@UseGuards(RolesGuard)
+@Roles(['Student'])
 export class RoleController {
-  constructor(private readonly createRoleUsecase: CreateRoleUsecase, private readonly getAllRoleUsecase: GetAllRoleUsecase, private readonly updateRoleUsecase: UpdateRoleUsecase, private readonly deleteRoleUsecase: DeleteRoleUsecase) { }
+  private readonly logger = new Logger(RoleController.name);
+
+  constructor(
+    private readonly createRoleUsecase: CreateRoleUsecase,
+    private readonly getAllRoleUsecase: GetAllRoleUsecase,
+    private readonly updateRoleUsecase: UpdateRoleUsecase,
+    private readonly deleteRoleUsecase: DeleteRoleUsecase,
+  ) {}
 
   @Get()
-  async getRoles(): Promise<DataState<RoleModel[]>> {
-    return await this.getAllRoleUsecase.execute();
+  async getRoles(@Request() req): Promise<DataState<RoleModel[]>> {
+    try {
+      this.logger.debug('Getting all roles');
+
+      const result = await this.getAllRoleUsecase.execute();
+
+      this.logger.debug('Successfully retrieved all roles');
+
+      return result;
+    } catch (error) {
+      this.logger.error('Failed to get roles', {
+        error: error.message,
+      });
+
+      throw error;
+    }
   }
 
   @Post('/create')
-  async createRole(@Body() request: RoleModel): Promise<DataState<RoleModel>> {
+  async createRole(@Request() req, @Body() request: RoleModel): Promise<DataState<RoleModel>> {
     try {
       return await this.createRoleUsecase.execute(request);
     } catch (error) {
@@ -31,7 +70,11 @@ export class RoleController {
   }
 
   @Patch('/update/:id')
-  async updateRole(@Body() request: RoleModel, @Param('id', ParseIntPipe) id: number): Promise<DataState<RoleModel>> {
+  async updateRole(
+    @Request() req,
+    @Body() request: RoleModel,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<DataState<RoleModel>> {
     try {
       return await this.updateRoleUsecase.execute({
         id: id,
@@ -43,12 +86,15 @@ export class RoleController {
   }
 
   @Delete('/delete/:id')
-  async deleteRole(@Param('id', ParseIntPipe) id: number): Promise<DataState<String>> {
+  async deleteRole(
+    @Request() req,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<DataState<String>> {
     try {
       await this.deleteRoleUsecase.execute(id);
 
       return {
-        data: "OK",
+        data: 'OK',
         error: null,
       };
     } catch (error) {
