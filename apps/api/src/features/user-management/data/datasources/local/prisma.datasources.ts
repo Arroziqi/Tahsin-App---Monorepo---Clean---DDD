@@ -4,17 +4,24 @@ import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
 
 export interface PrismaDataSources {
-  findByEmail(email: string, includeRole?: boolean): Promise<DataState<UserModel>>;
+  findByEmail(
+    email: string,
+    includeRole?: boolean,
+  ): Promise<DataState<UserModel>>;
   findById(id: number, includeRole?: boolean): Promise<DataState<UserModel>>;
   create(user: UserModel): Promise<DataState<UserModel>>;
+  updateHashedRefreshToken(
+    userId: number,
+    hashedRefreshToken: string | null,
+  ): Promise<DataState<String>>;
 }
 
 @Injectable()
 export class PrismaDataSourcesImpl implements PrismaDataSources {
   private readonly logger = new Logger(PrismaDataSourcesImpl.name);
-  
+
   constructor(private prismaService: PrismaService) {}
-  
+
   async findByEmail(
     email: string,
     includeRole?: boolean,
@@ -33,7 +40,10 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
 
       this.logger.debug('User found successfully');
       return {
-        data: new UserModel({...users, role: includeRole ? users.role : undefined}),
+        data: new UserModel({
+          ...users,
+          role: includeRole ? users.role : undefined,
+        }),
         error: undefined,
       };
     } catch (error) {
@@ -45,7 +55,10 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
     }
   }
 
-  async findById(id: number, includeRole?: boolean): Promise<DataState<UserModel>> {
+  async findById(
+    id: number,
+    includeRole?: boolean,
+  ): Promise<DataState<UserModel>> {
     try {
       this.logger.debug(`Finding user by ID: ${id}`);
       const users = await this.prismaService.user.findFirst({
@@ -60,7 +73,10 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
 
       this.logger.debug('User found successfully');
       return {
-        data: new UserModel({...users, role: includeRole ? users.role : undefined}),
+        data: new UserModel({
+          ...users,
+          role: includeRole ? users.role : undefined,
+        }),
         error: undefined,
       };
     } catch (error) {
@@ -101,6 +117,33 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
       this.logger.error('Error creating user', {
         error: error.message,
         stack: error.stack,
+      });
+      throw error;
+    }
+  }
+
+  async updateHashedRefreshToken(
+    userId: number,
+    hashedRefreshToken: string | null,
+  ): Promise<DataState<String>> {
+    try {
+      this.logger.debug(`Updating hashed refresh token for user ID: ${userId}`);
+      
+      await this.prismaService.user.update({
+        where: { id: userId },
+        data: {
+          hashedRefreshToken,
+        },
+      });
+
+      this.logger.debug('Hashed refresh token updated successfully');
+      return {
+        data: 'Hashed refresh token updated successfully',
+        error: undefined,
+      };
+    } catch (error) {
+      this.logger.error('Error updating hashed refresh token', {
+        error: error.message,
       });
       throw error;
     }

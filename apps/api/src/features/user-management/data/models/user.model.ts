@@ -1,5 +1,5 @@
-import { Exclude } from "class-transformer";
-import { RoleModel } from "./role.model";
+import { Exclude } from 'class-transformer';
+import { RoleModel } from './role.model';
 
 export class UserModel {
   id: number;
@@ -9,6 +9,8 @@ export class UserModel {
   username: string;
   role_id: number;
   profile_id?: number;
+  @Exclude()
+  hashedRefreshToken?: string;
 
   // Relasi
   // registrations?: RegistrationEntity[];

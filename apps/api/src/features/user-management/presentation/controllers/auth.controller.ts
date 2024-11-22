@@ -17,8 +17,8 @@ import { UserInterceptor } from '../../interceptors/user.interceptor';
 import { SignupUsecase } from '../../domain/usecases/auth/signup.usecase';
 import { LocalAuthGuard } from '../../guards/local-auth/local.auth.guard';
 import { AuthService } from '../../services/auth.service';
-import { JwtAuthGuard } from '../../guards/jwt-auth/jwt.auth.guard';
 import { RefreshAuthGuard } from '../../guards/refresh-auth/refresh.auth.guard';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('/api/users')
 @UseInterceptors(UserInterceptor)
@@ -32,6 +32,7 @@ export class AuthController {
     this.logger.log('AuthController initialized');
   }
 
+  @Public()
   @Post('/signup')
   async signUp(
     @Body(SignupUserPipe) request: UserModel,
@@ -59,6 +60,7 @@ export class AuthController {
     }
   }
 
+  @Public()
   @Post('/signin')
   @UseGuards(LocalAuthGuard)
   async login(@Request() req) {
@@ -82,11 +84,11 @@ export class AuthController {
   }
 
   @Get('/current')
-  @UseGuards(JwtAuthGuard)
   async getCurrentUser(@Request() req) {
     return req.user;
   }
 
+  @Public()
   @Post('/refresh')
   @UseGuards(RefreshAuthGuard)
   async refreshToken(@Request() req) {
@@ -105,6 +107,24 @@ export class AuthController {
         error: error.message,
       });
 
+      throw error;
+    }
+  }
+
+  @Post('/signout')
+  async signOut(@Request() req) {
+    try {
+      this.logger.debug(`Processing signout request for user id: ${req.user.data.id}`);
+      const result = await this.authService.logout(req.user.data.id);
+
+      this.logger.debug('Signout completed successfully');
+
+      return result;
+    } catch (error) {
+      this.logger.error('Signout failed', {
+        error: error.message,
+        userId: req.user.data.id
+      });
       throw error;
     }
   }
