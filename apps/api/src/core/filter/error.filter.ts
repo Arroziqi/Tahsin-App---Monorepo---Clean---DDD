@@ -2,7 +2,6 @@ import { Catch, ExceptionFilter, ArgumentsHost } from '@nestjs/common';
 import { ZodError } from 'zod';
 import { HttpException } from '@nestjs/common';
 import { Response } from 'express';
-import { ErrorEntity } from '../domain/entities/error.entity';
 
 @Catch(ZodError, HttpException)
 export class GlobalExceptionFilter implements ExceptionFilter {

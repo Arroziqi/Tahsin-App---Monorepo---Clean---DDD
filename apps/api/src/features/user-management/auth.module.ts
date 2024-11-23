@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import {
+  PROFILE_REPO_TOKEN,
   ROLE_REPO_TOKEN,
   USER_REPO_TOKEN,
 } from 'src/core/const/provider.token';
@@ -27,6 +28,13 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth/jwt.auth.guard';
 import { UpdateUsecase } from './domain/usecases/auth/update.usecase';
 import { DeleteUsecase } from './domain/usecases/auth/delete.usecase';
+import { ProfileDatasourcesImpl } from './data/datasources/local/profile.datasources';
+import { ProfileController } from './presentation/controllers/profile/profile.controller';
+import { GetAllProfileUsecase } from './domain/usecases/profile/get.all.usecase';
+import { GetProfileUsecase } from './domain/usecases/profile/get.usecase';
+import { CreateProfileUsecase } from './domain/usecases/profile/create.usecase';
+import { UpdateProfileUsecase } from './domain/usecases/profile/update.usecase';
+import { Logger } from '@nestjs/common';
 
 @Module({
   imports: [
@@ -34,15 +42,19 @@ import { DeleteUsecase } from './domain/usecases/auth/delete.usecase';
     ConfigModule.forFeature(jwtConfig),
     ConfigModule.forFeature(refreshConfig),
   ],
-  controllers: [AuthController, RoleController],
+  controllers: [AuthController, RoleController, ProfileController],
   providers: [
     SignupUsecase,
     UpdateUsecase,
     DeleteUsecase,
-    CreateRoleUsecase,
+    CreateRoleUsecase,  
     GetAllRoleUsecase,
     UpdateRoleUsecase,
     DeleteRoleUsecase,
+    GetProfileUsecase,
+    GetAllProfileUsecase,
+    CreateProfileUsecase,
+    UpdateProfileUsecase,
     AuthService,
     PasswordService,
     DataService,
@@ -50,6 +62,7 @@ import { DeleteUsecase } from './domain/usecases/auth/delete.usecase';
     LocalStrategy,
     JwtStrategy,
     RefreshTokenStrategy,
+    Logger,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
@@ -61,6 +74,10 @@ import { DeleteUsecase } from './domain/usecases/auth/delete.usecase';
     {
       provide: ROLE_REPO_TOKEN,
       useClass: RolePrismaDataSourcesImpl,
+    },
+    {
+      provide: PROFILE_REPO_TOKEN,
+      useClass: ProfileDatasourcesImpl,
     },
   ],
 })
