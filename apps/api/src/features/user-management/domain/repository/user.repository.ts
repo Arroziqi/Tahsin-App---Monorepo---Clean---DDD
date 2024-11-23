@@ -9,4 +9,6 @@ export interface UserRepository {
   findById(id: number, includeRole?: boolean): Promise<DataState<UserEntity>>;
   create(user: UserEntity): Promise<DataState<UserEntity>>;
   updateHashedRefreshToken(userId: number, hashedRefreshToken: string | null): Promise<DataState<String>>;
+  update(user: UserEntity): Promise<DataState<UserEntity>>;
+  delete(id: number): Promise<DataState<string>>;
 }
