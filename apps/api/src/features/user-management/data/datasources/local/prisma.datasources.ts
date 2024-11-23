@@ -14,6 +14,8 @@ export interface PrismaDataSources {
     userId: number,
     hashedRefreshToken: string | null,
   ): Promise<DataState<String>>;
+  update(user: UserModel): Promise<DataState<UserModel>>;
+  delete(id: number): Promise<DataState<string>>;
 }
 
 @Injectable()
@@ -143,6 +145,63 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
     } catch (error) {
       this.logger.error('Error updating hashed refresh token', {
         error: error.message,
+      });
+      throw error;
+    }
+  }
+
+  async update(user: UserModel): Promise<DataState<UserModel>> {
+    try {
+      this.logger.debug(`Updating user with ID: ${user.id}`);
+
+      const data = await this.prismaService.user.update({
+        where: { id: user.id },
+        data: {
+          email: user.email,
+          username: user.username,
+          password: user.password,
+          role_id: user.role_id,
+          profile_id: user.profile_id,
+          hashedRefreshToken: user.hashedRefreshToken,
+        },
+      });
+
+      this.logger.debug('User updated successfully');
+      return {
+        data: new UserModel({
+          id: data.id,
+          email: data.email,
+          username: data.username,
+          password: data.password,
+          role_id: data.role_id,
+          profile_id: data.profile_id,
+          hashedRefreshToken: data.hashedRefreshToken,
+        }),
+        error: undefined,
+      };
+    } catch (error) {
+      this.logger.error('Error updating user', {
+        error: error.message,
+      });
+      throw error;
+    }
+  }
+
+  async delete(id: number): Promise<DataState<string>> {
+    try {
+      this.logger.debug(`Deleting user with ID: ${id}`);
+      await this.prismaService.user.delete({
+        where: { id },
+      });
+
+      this.logger.debug('User deleted successfully');
+      return {
+        data: 'User deleted successfully',
+        error: undefined
+      };
+    } catch (error) {
+      this.logger.error('Error deleting user', {
+        error: error.message
       });
       throw error;
     }

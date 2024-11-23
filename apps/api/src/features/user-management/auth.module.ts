@@ -25,6 +25,8 @@ import { RefreshTokenStrategy } from './strategies/refresh.token.strategy';
 import refreshConfig from './config/refresh.config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth/jwt.auth.guard';
+import { UpdateUsecase } from './domain/usecases/auth/update.usecase';
+import { DeleteUsecase } from './domain/usecases/auth/delete.usecase';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { JwtAuthGuard } from './guards/jwt-auth/jwt.auth.guard';
   controllers: [AuthController, RoleController],
   providers: [
     SignupUsecase,
+    UpdateUsecase,
+    DeleteUsecase,
     CreateRoleUsecase,
     GetAllRoleUsecase,
     UpdateRoleUsecase,
