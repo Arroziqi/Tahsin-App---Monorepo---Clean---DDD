@@ -50,10 +50,7 @@ export class RolePrismaDataSourcesImpl implements RolePrismaDataSources {
       return {
         data: new RoleModel({
           ...data,
-          users: includeUsers ? data?.users?.map(user => ({
-            ...user,
-            profile_id: user.profile_id ?? undefined
-          })) : undefined
+          users: includeUsers ? data?.users : undefined
         }),
         error: undefined,
       };
@@ -77,10 +74,7 @@ export class RolePrismaDataSourcesImpl implements RolePrismaDataSources {
     return {
       data: new RoleModel({
         ...role,
-        users: includeUsers ? role?.users?.map(user => ({
-          ...user,
-          profile_id: user.profile_id ?? undefined
-        })) : undefined
+        users: includeUsers ? role?.users : undefined
       }),
       error: undefined,
     };
@@ -93,7 +87,7 @@ export class RolePrismaDataSourcesImpl implements RolePrismaDataSources {
     });
 
     return {
-      data: roles.map(role => new RoleModel({ ...role, users: includeUsers ? role?.users?.map(user => ({ ...user, profile_id: user.profile_id ?? undefined })) : undefined })),
+      data: roles.map(role => new RoleModel({ ...role, users: includeUsers ? role?.users : undefined })),
       error: undefined,
     };
   }

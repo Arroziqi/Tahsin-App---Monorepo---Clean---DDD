@@ -51,7 +51,6 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
     } catch (error) {
       this.logger.error('Error finding user by email', {
         error: error.message,
-        stack: error.stack,
       });
       throw error;
     }
@@ -83,7 +82,6 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
     } catch (error) {
       this.logger.error('Error finding user by ID', {
         error: error.message,
-        stack: error.stack,
       });
       throw error;
     }
@@ -98,7 +96,6 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
           email: user.email,
           password: user.password,
           role_id: user.role_id,
-          profile_id: user.profile_id,
         },
       });
 
@@ -110,14 +107,13 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
           email: data.email,
           password: data.password,
           role_id: data.role_id,
-          profile_id: data.profile_id,
+          hashedRefreshToken: data.hashedRefreshToken,
         },
         error: undefined,
       };
     } catch (error) {
       this.logger.error('Error creating user', {
         error: error.message,
-        stack: error.stack,
       });
       throw error;
     }
@@ -161,7 +157,6 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
           username: user.username,
           password: user.password,
           role_id: user.role_id,
-          profile_id: user.profile_id,
           hashedRefreshToken: user.hashedRefreshToken,
         },
       });
@@ -174,7 +169,6 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
           username: data.username,
           password: data.password,
           role_id: data.role_id,
-          profile_id: data.profile_id,
           hashedRefreshToken: data.hashedRefreshToken,
         }),
         error: undefined,
