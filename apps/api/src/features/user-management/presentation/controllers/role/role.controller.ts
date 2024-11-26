@@ -13,18 +13,18 @@ import {
   Logger,
   Request,
 } from '@nestjs/common';
-import { CreateRoleUsecase } from '../../domain/usecases/role/create.usecase';
-import { RoleModel } from '../../data/models/role.model';
+import { CreateRoleUsecase } from '../../../domain/usecases/role/create.usecase';
+import { RoleModel } from '../../../data/models/role.model';
 import { DataState } from 'src/core/resources/data.state';
-import { GetAllRoleUsecase } from '../../domain/usecases/role/get.all.usecase';
-import { UpdateRoleUsecase } from '../../domain/usecases/role/update.usecase';
-import { DeleteRoleUsecase } from '../../domain/usecases/role/delete.usecase';
+import { GetAllRoleUsecase } from '../../../domain/usecases/role/get.all.usecase';
+import { UpdateRoleUsecase } from '../../../domain/usecases/role/update.usecase';
+import { DeleteRoleUsecase } from '../../../domain/usecases/role/delete.usecase';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { RolesGuard } from '../../guards/roles/roles.guard';
+import { RolesGuard } from '../../../guards/roles/roles.guard';
 
 @Controller('/api/roles')
 @UseGuards(RolesGuard)
-@Roles(['Student'])
+@Roles(['Admin'])
 export class RoleController {
   private readonly logger = new Logger(RoleController.name);
 
@@ -55,7 +55,10 @@ export class RoleController {
   }
 
   @Post('/create')
-  async createRole(@Request() req, @Body() request: RoleModel): Promise<DataState<RoleModel>> {
+  async createRole(
+    @Request() req,
+    @Body() request: RoleModel,
+  ): Promise<DataState<RoleModel>> {
     try {
       return await this.createRoleUsecase.execute(request);
     } catch (error) {
