@@ -1,16 +1,17 @@
+import { ProfileEntity } from "./profile.entity";
 import { RoleEntity } from "./role.entity";
+// import { RegistrationEntity } from "./registration.entity";
 
 export class UserEntity {
   id: number;
   email: string;
   password: string;
   username: string;
+  hashedRefreshToken?: string;
   role_id: number;
-  profile_id?: number;
-
-  // Relasi
+  // Relations
   // registrations?: RegistrationEntity[];
-  // profile?: ProfileEntity;
+  profile?: ProfileEntity;
   role?: RoleEntity;
 
   constructor(data: Partial<UserEntity>) {

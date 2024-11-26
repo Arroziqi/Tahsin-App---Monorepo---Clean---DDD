@@ -2,9 +2,17 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AppService } from './app.service';
+import { LogLevel } from '@nestjs/common';
+import { isProduction } from './core/const/env';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const logLevels: LogLevel[] = isProduction
+    ? ['error', 'warn']
+    : ['error', 'warn', 'log', 'debug', 'verbose'];
+
+  const app = await NestFactory.create(AppModule, {
+    logger: logLevels,
+  });
 
   const appService = app.get(AppService);
 
@@ -16,12 +24,17 @@ async function bootstrap() {
     console.log(`Application is running on port ${primaryPort}`);
   } catch (error) {
     if (error.code === 'EADDRINUSE') {
-      console.log(`Port ${primaryPort} is already in use. Trying fallback port ${fallbackPort}...`);
+      console.log(
+        `Port ${primaryPort} is already in use. Trying fallback port ${fallbackPort}...`,
+      );
       try {
         await app.listen(fallbackPort);
         console.log(`Application is running on fallback port ${fallbackPort}`);
       } catch (fallbackError) {
-        console.error(`Failed to start on fallback port ${fallbackPort}:`, fallbackError);
+        console.error(
+          `Failed to start on fallback port ${fallbackPort}:`,
+          fallbackError,
+        );
         process.exit(1);
       }
     } else {

@@ -12,10 +12,22 @@ export abstract class UserRepositoryImpl implements UserRepository {
   async findByEmail(
     email: string,
     includeRole?: boolean,
-  ): Promise<DataState<UserEntity[]>> {
+  ): Promise<DataState<UserEntity>> {
     return await this.userRepository.findByEmail(email, includeRole);
+  }
+  async findById(id: number, includeRole?: boolean): Promise<DataState<UserEntity>> {
+    return await this.userRepository.findById(id, includeRole);
   }
   async create(user: UserEntity): Promise<DataState<UserEntity>> {
     return await this.userRepository.create(user);
+  }
+  async updateHashedRefreshToken(userId: number, hashedRefreshToken: string | null): Promise<DataState<String>> {
+    return await this.userRepository.updateHashedRefreshToken(userId, hashedRefreshToken);
+  }
+  async update(user: UserEntity): Promise<DataState<UserEntity>> {
+    return await this.userRepository.update(user);
+  }
+  async delete(id: number): Promise<DataState<string>> {
+    return await this.userRepository.delete(id);
   }
 }

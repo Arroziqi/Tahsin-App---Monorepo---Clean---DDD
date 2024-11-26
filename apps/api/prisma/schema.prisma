@@ -14,9 +14,10 @@ model Profile {
   date_of_birth  DateTime @db.Date
   address        String   @db.VarChar(255)
   domicile       String   @db.VarChar(255)
-  phone_number   Int
+  phone_number   String   @db.VarChar(20)
   profession     String   @db.VarChar(255)
-  users          User[]
+  user_id        Int      @unique
+  user           User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Registration {
@@ -38,13 +39,13 @@ model Role {
 }
 
 model User {
-  id           Int            @id @default(autoincrement())
-  email        String         @unique(map: "users_email_unique") @db.VarChar(255)
-  password     String         @db.VarChar(255)
-  username     String         @db.VarChar(255)
-  role_id      Int            @default(2)
-  profile_id   Int?
-  registrations Registration[]
-  profile      Profile?       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_profile_id_foreign")
-  role         Role           @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_role_id_foreign")
+  id                 Int            @id @default(autoincrement())
+  email              String         @unique(map: "users_email_unique") @db.VarChar(255)
+  password           String         @db.VarChar(255)
+  username           String         @db.VarChar(255)
+  hashedRefreshToken String?        @db.VarChar(255)
+  role_id            Int            @default(2)
+  registrations      Registration[]
+  profile            Profile?
+  role               Role           @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_role_id_foreign")
 }
