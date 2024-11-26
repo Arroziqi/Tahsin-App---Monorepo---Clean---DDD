@@ -24,8 +24,6 @@ import { PasswordService } from './services/password.service';
 import { DataService } from './services/data.service';
 import { RefreshTokenStrategy } from './strategies/refresh.token.strategy';
 import refreshConfig from './config/refresh.config';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './guards/jwt-auth/jwt.auth.guard';
 import { UpdateUsecase } from './domain/usecases/auth/update.usecase';
 import { DeleteUsecase } from './domain/usecases/auth/delete.usecase';
 import { ProfileDatasourcesImpl } from './data/datasources/local/profile.datasources';
@@ -63,10 +61,6 @@ import { Logger } from '@nestjs/common';
     JwtStrategy,
     RefreshTokenStrategy,
     Logger,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
     {
       provide: USER_REPO_TOKEN,
       useClass: PrismaDataSourcesImpl,
