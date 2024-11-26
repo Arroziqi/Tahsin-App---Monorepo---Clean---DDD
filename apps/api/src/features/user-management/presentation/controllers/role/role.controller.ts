@@ -36,7 +36,7 @@ export class RoleController {
   ) {}
 
   @Get()
-  async getRoles(@Request() req): Promise<DataState<RoleModel[]>> {
+  async getRoles(): Promise<DataState<RoleModel[]>> {
     try {
       this.logger.debug('Getting all roles');
 
@@ -56,7 +56,6 @@ export class RoleController {
 
   @Post('/create')
   async createRole(
-    @Request() req,
     @Body() request: RoleModel,
   ): Promise<DataState<RoleModel>> {
     try {
@@ -74,7 +73,6 @@ export class RoleController {
 
   @Patch('/update/:id')
   async updateRole(
-    @Request() req,
     @Body() request: RoleModel,
     @Param('id', ParseIntPipe) id: number,
   ): Promise<DataState<RoleModel>> {
@@ -90,7 +88,6 @@ export class RoleController {
 
   @Delete('/delete/:id')
   async deleteRole(
-    @Request() req,
     @Param('id', ParseIntPipe) id: number,
   ): Promise<DataState<String>> {
     try {
