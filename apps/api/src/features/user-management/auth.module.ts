@@ -6,11 +6,11 @@ import {
 } from 'src/core/const/provider.token';
 import { PrismaDataSourcesImpl } from './data/datasources/local/prisma.datasources';
 import { RolePrismaDataSourcesImpl } from './data/datasources/local/role.prisma.datasources';
-import { AuthController } from './presentation/controllers/auth.controller';
+import { AuthController } from './presentation/controllers/auth/auth.controller';
 import { AuthService } from './services/auth.service';
 import { PrismaService } from 'src/common/services/prisma.service';
 import { CreateRoleUsecase } from './domain/usecases/role/create.usecase';
-import { RoleController } from './presentation/controllers/role.controller';
+import { RoleController } from './presentation/controllers/role/role.controller';
 import { GetAllRoleUsecase } from './domain/usecases/role/get.all.usecase';
 import { UpdateRoleUsecase } from './domain/usecases/role/update.usecase';
 import { DeleteRoleUsecase } from './domain/usecases/role/delete.usecase';
@@ -47,7 +47,7 @@ import { Logger } from '@nestjs/common';
     SignupUsecase,
     UpdateUsecase,
     DeleteUsecase,
-    CreateRoleUsecase,  
+    CreateRoleUsecase,
     GetAllRoleUsecase,
     UpdateRoleUsecase,
     DeleteRoleUsecase,

@@ -97,6 +97,15 @@ export class ProfileDatasourcesImpl implements ProfileDatasources {
         where: { user_id: userId },
         include: { user: includeUser },
       });
+      
+      if (!data) {
+        this.logger.log('Profile not found');
+        return {
+          data: undefined,
+          error: new ErrorEntity(404, 'Profile not found'),
+        };
+      }
+
       this.logger.log(`Profile found for user id: ${userId}`);
       return {
         data: new ProfileModel({

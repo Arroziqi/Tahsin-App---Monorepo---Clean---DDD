@@ -15,18 +15,18 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { DataState } from 'src/core/resources/data.state';
-import { UserModel } from '../../data/models/user.model';
-import { SignupUserPipe } from '../../pipes/signup.user.pipe';
-import { UserInterceptor } from '../../interceptors/user.interceptor';
-import { SignupUsecase } from '../../domain/usecases/auth/signup.usecase';
-import { LocalAuthGuard } from '../../guards/local-auth/local.auth.guard';
-import { AuthService } from '../../services/auth.service';
-import { RefreshAuthGuard } from '../../guards/refresh-auth/refresh.auth.guard';
+import { UserModel } from '../../../data/models/user.model';
+import { SignupUserPipe } from '../../../pipes/signup.user.pipe';
+import { UserInterceptor } from '../../../interceptors/user.interceptor';
+import { SignupUsecase } from '../../../domain/usecases/auth/signup.usecase';
+import { LocalAuthGuard } from '../../../guards/local-auth/local.auth.guard';
+import { AuthService } from '../../../services/auth.service';
+import { RefreshAuthGuard } from '../../../guards/refresh-auth/refresh.auth.guard';
 import { Public } from 'src/common/decorators/public.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { RolesGuard } from '../../guards/roles/roles.guard';
-import { UpdateUsecase } from '../../domain/usecases/auth/update.usecase';
-import { DeleteUsecase } from '../../domain/usecases/auth/delete.usecase';
+import { RolesGuard } from '../../../guards/roles/roles.guard';
+import { UpdateUsecase } from '../../../domain/usecases/auth/update.usecase';
+import { DeleteUsecase } from '../../../domain/usecases/auth/delete.usecase';
 
 @Controller('/api/users')
 @UseInterceptors(UserInterceptor)
@@ -144,15 +144,19 @@ export class AuthController {
   @Put('/update/:id')
   @Roles(['Admin'])
   @UseGuards(RolesGuard)
-  async updateUser(@Request() req, @Param('id', ParseIntPipe) id: number, @Body() user: UserModel) {
-    return this.updateUsecase.execute({...user, id});
+  async updateUser(
+    @Request() req,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() user: UserModel,
+  ) {
+    return this.updateUsecase.execute({ ...user, id });
   }
 
   @Put('/update')
   async updateCurrentUser(@Request() req, @Body() user: UserModel) {
-    return this.updateUsecase.execute({...user, id: req.user.data.id});
+    return this.updateUsecase.execute({ ...user, id: req.user.data.id });
   }
-  
+
   @Delete('/delete/:id')
   @Roles(['Admin'])
   @UseGuards(RolesGuard)

@@ -34,7 +34,7 @@ export class ProfileController {
     this.logger.log('ProfileController initialized');
   }
 
-  @Get()
+  @Get('/current')
   async getCurrentProfile(@Request() req): Promise<DataState<ProfileModel>> {
     return await this.getProfileUsecase.execute(req.user.data.id);
   }
