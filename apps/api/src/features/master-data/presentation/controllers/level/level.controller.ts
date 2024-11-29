@@ -1,14 +1,25 @@
-import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
-import { Roles } from "src/common/decorators/roles.decorator";
-import { RolesGuard } from "src/features/user-management/guards/roles/roles.guard";
-import { AddLevelUsecase } from "../../../domain/usecases/add-level.usecase";
-import { UpdateLevelUsecase } from "../../../domain/usecases/update-level.usecase";
-import { DeleteLevelUsecase } from "../../../domain/usecases/delete-level.usecase";
-import { GetAllLevelUsecase } from "../../../domain/usecases/getAll-level.usecase";
-import { DataState } from "src/core/resources/data.state";
-import { LevelEntity } from "../../../domain/entities/level.entity";
-import { CreateLevelPipe } from "src/features/master-data/pipes/level/create-level.pipe";
-import { UpdateLevelPipe } from "src/features/master-data/pipes/level/update-level.pipe";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/features/user-management/guards/roles/roles.guard';
+import { AddLevelUsecase } from '../../../domain/usecases/level/add-level.usecase';
+import { UpdateLevelUsecase } from '../../../domain/usecases/level/update-level.usecase';
+import { DeleteLevelUsecase } from '../../../domain/usecases/level/delete-level.usecase';
+import { GetAllLevelUsecase } from '../../../domain/usecases/level/getAll-level.usecase';
+import { DataState } from 'src/core/resources/data.state';
+import { LevelEntity } from '../../../domain/entities/level.entity';
+import { CreateLevelPipe } from 'src/features/master-data/pipes/level/create-level.pipe';
+import { UpdateLevelPipe } from 'src/features/master-data/pipes/level/update-level.pipe';
 
 @Controller('/api/levels')
 @UseGuards(RolesGuard)
@@ -38,7 +49,9 @@ export class LevelController {
   }
 
   @Post()
-  async createLevel(@Body(CreateLevelPipe) request: LevelEntity): Promise<DataState<LevelEntity>> {
+  async createLevel(
+    @Body(CreateLevelPipe) request: LevelEntity,
+  ): Promise<DataState<LevelEntity>> {
     try {
       this.logger.debug('Creating level', { request });
       const result = await this.createLevelUsecase.execute(request);
@@ -52,7 +65,10 @@ export class LevelController {
   }
 
   @Patch(':id')
-  async updateLevel(@Param('id', ParseIntPipe) id: number, @Body(UpdateLevelPipe) request: LevelEntity): Promise<DataState<LevelEntity>> {
+  async updateLevel(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(UpdateLevelPipe) request: LevelEntity,
+  ): Promise<DataState<LevelEntity>> {
     try {
       this.logger.debug('Updating level', { id, request });
       const result = await this.updateLevelUsecase.execute({ id, ...request });
@@ -66,7 +82,9 @@ export class LevelController {
   }
 
   @Delete(':id')
-  async deleteLevel(@Param('id', ParseIntPipe) id: number): Promise<DataState<string>> {
+  async deleteLevel(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<DataState<string>> {
     try {
       this.logger.debug('Deleting level', { id });
       const result = await this.deleteLevelUsecase.execute(id);

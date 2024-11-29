@@ -13,6 +13,23 @@ enum TeacherStatus {
   HYBRID
 }
 
+enum MeetingTypeEnum {
+  ONLINE
+  OFFLINE
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
+}
+
+enum PaymentStatus {
+  PAID
+  UNPAID
+  INSTALLMENT
+}
+
 model Profile {
   id             Int      @id @default(autoincrement())
   name           String   @db.VarChar(255)
@@ -35,12 +52,15 @@ model Registration {
   class_type     String  @db.VarChar(255)
   voice_note     String? @db.VarChar(255)
   schedule       String  @db.VarChar(255)
-  user           User    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "registration_user_id_foreign")
+
+  user User @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "registration_user_id_foreign")
+
+  attendance Attendance[]
 }
 
 model Role {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique(map: "roles_name_unique") @db.VarChar(255)
+  id    Int    @id @default(autoincrement())
+  name  String @unique(map: "roles_name_unique") @db.VarChar(255)
   users User[]
 }
 
@@ -56,28 +76,121 @@ model User {
   role               Role           @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_role_id_foreign")
 }
 
+model Batch {
+  id       Int @id @default(autoincrement())
+  year     Int
+  semester Int
+  cohort   Int
+
+  calendars Calendar[]
+  schedules Schedule[]
+}
+
+model Calendar {
+  id         Int      @id @default(autoincrement())
+  batch_id   Int
+  event_id   Int
+  start_date DateTime
+  end_date   DateTime
+
+  event Event? @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  batch Batch? @relation(fields: [batch_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+}
+
+model Event {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+
+  calendars Calendar[]
+}
+
 model Class {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique(map: "classes_name_unique") @db.VarChar(255)
+  id         Int    @id @default(autoincrement())
+  name       String @unique(map: "classes_name_unique") @db.VarChar(255)
   teacher_id Int
   level_id   Int
 
-  teacher    Teacher @relation(fields: [teacher_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "classes_teacher_id_foreign")
-  level      Level   @relation(fields: [level_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "classes_level_id_foreign")
+  teacher Teacher @relation(fields: [teacher_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "classes_teacher_id_foreign")
+  level   Level   @relation(fields: [level_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "classes_level_id_foreign")
+
+  grade_components GradeComponent[]
+  sessions         Session[]
 }
 
 model Level {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique(map: "levels_name_unique") @db.VarChar(255)
+  id   Int    @id @default(autoincrement())
+  name String @unique(map: "levels_name_unique") @db.VarChar(255)
 
-  class Class[]
+  classes Class[]
 }
 
 model Teacher {
-  id    Int     @id @default(autoincrement())
-  name  String  @db.VarChar(255)
+  id     Int           @id @default(autoincrement())
+  name   String        @db.VarChar(255)
   status TeacherStatus @default(OFFLINE)
 
-  class Class[]
+  classes Class[]
 }
 
+model GradeComponent {
+  id           Int @id @default(autoincrement())
+  class_id     Int
+  component_id Int
+
+  class     Class?     @relation(fields: [class_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  component Component? @relation(fields: [component_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Component {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
+
+  grade_components GradeComponent[]
+}
+
+model Session {
+  id         Int      @id @default(autoincrement())
+  class_id   Int
+  date       DateTime
+  start_time String   @db.VarChar(100)
+
+  class Class? @relation(fields: [class_id], references: [id], onDelete: Cascade)
+}
+
+model Attendance {
+  id              Int              @id @default(autoincrement())
+  session_id      Int
+  registration_id Int
+  status          AttendanceStatus
+
+  registration Registration? @relation(fields: [registration_id], references: [id])
+}
+
+model Schedule {
+  id            Int             @id @default(autoincrement())
+  batch_id      Int
+  class_id      Int
+  type          MeetingTypeEnum
+  day_id        Int
+  start_time_id Int
+  end_time      String          @db.VarChar(100)
+
+  time  Time   @relation(fields: [start_time_id], references: [id])
+  day   Day?   @relation(fields: [day_id], references: [id])
+  batch Batch? @relation(fields: [batch_id], references: [id])
+}
+
+model Time {
+  id   Int    @id @default(autoincrement())
+  time String @unique(map: "time_name_unique") @db.VarChar(20)
+
+  schedules Schedule[]
+}
+
+model Day {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique @db.VarChar(20)
+  status Boolean
+
+  schedules Schedule[]
+}

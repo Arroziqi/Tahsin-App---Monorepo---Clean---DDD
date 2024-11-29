@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { LevelEntity } from '../entities/level.entity';
+import { LevelEntity } from '../../entities/level.entity';
 import { LEVEL_REPO_TOKEN } from 'src/core/const/provider.token';
 import { UseCase } from 'src/core/domain/usecases/usecase';
 import { DataState } from 'src/core/resources/data.state';
-import { LevelRepository } from '../repository/level.repository';
+import { LevelRepository } from '../../repository/level.repository';
 
 @Injectable()
 export class GetAllLevelUsecase
