@@ -1,10 +1,10 @@
-import { ErrorEntity } from "../domain/entities/error.entity";
+import { ErrorEntity } from '../domain/entities/error.entity';
 
 export abstract class DataState<T> {
   data?: T;
   error?: ErrorEntity;
 
-  constructor(data?: T, error?: ErrorEntity) {
+  protected constructor(data?: T, error?: ErrorEntity) {
     this.data = data;
     this.error = error;
   }

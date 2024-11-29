@@ -1,18 +1,23 @@
-import { DataState } from '../../../../core/resources/data.state';
-import { LevelModel } from '../models/level.model';
-import { PrismaService } from '../../../../common/services/prisma.service';
+import { DataState } from 'src/core/resources/data.state';
+import { LevelModel } from 'src/features/master-data/data/models/level.model';
+import { PrismaService } from 'src/common/services/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
 
 export interface LevelPrismaDataSources {
   findById(id: number, includeClass?: boolean): Promise<DataState<LevelModel>>;
+
   findByName(
     name: string,
     includeClass?: boolean,
   ): Promise<DataState<LevelModel>>;
+
   findAll(includeClass?: boolean): Promise<DataState<LevelModel[]>>;
+
   create(level: LevelModel): Promise<DataState<LevelModel>>;
+
   update(level: LevelModel): Promise<DataState<LevelModel>>;
+
   delete(id: number): Promise<DataState<string>>;
 }
 
@@ -21,6 +26,7 @@ export class LevelPrismaDataSourcesImpl implements LevelPrismaDataSources {
   private readonly logger = new Logger(LevelPrismaDataSourcesImpl.name);
 
   constructor(private readonly prismaService: PrismaService) {}
+
   async findById(
     id: number,
     includeClass?: boolean,
@@ -30,7 +36,7 @@ export class LevelPrismaDataSourcesImpl implements LevelPrismaDataSources {
       const data = await this.prismaService.level.findFirst({
         where: { id },
         include: {
-          class: includeClass,
+          classes: includeClass,
         },
       });
 
@@ -46,6 +52,7 @@ export class LevelPrismaDataSourcesImpl implements LevelPrismaDataSources {
       throw new ErrorEntity(500, error.message);
     }
   }
+
   async findByName(
     name: string,
     includeClass?: boolean,
@@ -55,7 +62,7 @@ export class LevelPrismaDataSourcesImpl implements LevelPrismaDataSources {
       const data = await this.prismaService.level.findFirst({
         where: { name },
         include: {
-          class: includeClass,
+          classes: includeClass,
         },
       });
 
@@ -76,12 +83,13 @@ export class LevelPrismaDataSourcesImpl implements LevelPrismaDataSources {
       throw new ErrorEntity(500, error.message);
     }
   }
+
   async findAll(includeClass?: boolean): Promise<DataState<LevelModel[]>> {
     try {
       this.logger.log(`Finding all levels`);
       const data = await this.prismaService.level.findMany({
         include: {
-          class: includeClass,
+          classes: includeClass,
         },
         orderBy: {
           id: 'asc',
@@ -103,6 +111,7 @@ export class LevelPrismaDataSourcesImpl implements LevelPrismaDataSources {
       throw new ErrorEntity(500, error.message);
     }
   }
+
   async create(level: LevelModel): Promise<DataState<LevelModel>> {
     try {
       this.logger.log(`Creating level`);
@@ -117,6 +126,7 @@ export class LevelPrismaDataSourcesImpl implements LevelPrismaDataSources {
       throw new ErrorEntity(500, error.message);
     }
   }
+
   async update(level: LevelModel): Promise<DataState<LevelModel>> {
     try {
       this.logger.log(`Updating level`);
@@ -137,6 +147,7 @@ export class LevelPrismaDataSourcesImpl implements LevelPrismaDataSources {
       throw new ErrorEntity(500, error.message);
     }
   }
+
   async delete(id: number): Promise<DataState<string>> {
     try {
       this.logger.log(`Deleting level with id: ${id}`);
