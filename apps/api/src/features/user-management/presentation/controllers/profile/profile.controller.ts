@@ -19,8 +19,8 @@ import { GetAllProfileUsecase } from 'src/features/user-management/domain/usecas
 import { GetProfileUsecase } from 'src/features/user-management/domain/usecases/profile/get.usecase';
 import { UpdateProfileUsecase } from 'src/features/user-management/domain/usecases/profile/update.usecase';
 import { RolesGuard } from 'src/features/user-management/guards/roles/roles.guard';
-import { CreateProfilePipe } from 'src/features/user-management/pipes/profile/create.user.pipe';
-import { UpdateProfilePipe } from 'src/features/user-management/pipes/profile/update.user.pipe';
+import { CreateProfilePipe } from 'src/features/user-management/pipes/profile/create-profile.pipe';
+import { UpdateProfilePipe } from 'src/features/user-management/pipes/profile/update-profile.pipe';
 
 @Controller('/api/profiles')
 export class ProfileController {

@@ -1,4 +1,8 @@
-import { DataState, DataSuccess } from 'src/core/resources/data.state';
+import {
+  DataFailed,
+  DataState,
+  DataSuccess,
+} from 'src/core/resources/data.state';
 import { ComponentModel } from 'src/features/master-data/data/models/component.model';
 import { Injectable, Logger } from '@nestjs/common';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
@@ -41,7 +45,7 @@ export class ComponentPrismaDataSourcesImpl
       this.logger.error(
         `Error finding component with id ${id}: ${error.message}`,
       );
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
@@ -54,7 +58,7 @@ export class ComponentPrismaDataSourcesImpl
 
       if (!data) {
         this.logger.warn(`Component with name: ${name} not found`);
-        throw new ErrorEntity(404, 'Component not found');
+        return new DataFailed(new ErrorEntity(404, 'Component not found'));
       }
 
       this.logger.log(`Successfully found component with name: ${name}`);
@@ -133,7 +137,7 @@ export class ComponentPrismaDataSourcesImpl
       return new DataSuccess('OK');
     } catch (error) {
       this.logger.error(`Error deleting component with id: ${id}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 }

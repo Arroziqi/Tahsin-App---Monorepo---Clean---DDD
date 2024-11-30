@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UseCase } from 'src/core/domain/usecases/usecase';
 import { DataState } from 'src/core/resources/data.state';
 import { EVENT_REPO_TOKEN } from 'src/core/const/provider.token';
@@ -13,6 +13,14 @@ export class DeleteEventUsecase implements UseCase<number, DataState<string>> {
   ) {}
 
   async execute(input: number): Promise<DataState<string>> {
+    this.logger.debug(`Checking if event exists with id: ${input}`);
+    const existingEvent = await this.eventRepository.findById(input, true);
+
+    if (!existingEvent.data) {
+      this.logger.warn(`Event with id: ${input} not found`);
+      throw new NotFoundException('Event not found');
+    }
+
     this.logger.debug(`Deleting event with id: ${input}`);
     const result = await this.eventRepository.delete(input);
 

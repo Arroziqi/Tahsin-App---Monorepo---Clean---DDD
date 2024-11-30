@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UseCase } from 'src/core/domain/usecases/usecase';
 import { DayEntity } from '../../entities/day.entity';
 import { DataState } from 'src/core/resources/data.state';
@@ -16,6 +16,14 @@ export class UpdateDayUsecase
   ) {}
 
   async execute(input: DayEntity): Promise<DataState<DayEntity>> {
+    this.logger.debug(`Checking if day with id ${input.id} exists`);
+    const day = await this.dayRepository.findById(input.id);
+    
+    if (!day.data) {
+      this.logger.error(`Day with id ${input.id} not found`);
+      throw new NotFoundException(`Day with id ${input.id} not found`);
+    }
+
     this.logger.debug(`Updating day with id: ${input.id}`);
     const result = await this.dayRepository.update(input);
 
