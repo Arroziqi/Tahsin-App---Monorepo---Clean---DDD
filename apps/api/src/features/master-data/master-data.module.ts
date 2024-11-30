@@ -46,26 +46,35 @@ import { GetAllEventUsecase } from './domain/usecases/event/getAll-event.usecase
     EventController,
   ],
   providers: [
+    // Level
     AddLevelUsecase,
     UpdateLevelUsecase,
     DeleteLevelUsecase,
     GetAllLevelUsecase,
-    GetAllDayUsecase,
-    GetAllTimeUsecase,
-    GetAllComponentUsecase,
-    GetAllEventUsecase,
-    UpdateEventUsecase,
-    UpdateTimeUsecase,
-    UpdateDayUsecase,
-    UpdateComponentUsecase,
-    AddEventUsecase,
-    AddTimeUsecase,
+
+    // Day
     AddDayUsecase,
-    AddComponentUsecase,
-    DeleteEventUsecase,
-    DeleteTimeUsecase,
+    UpdateDayUsecase,
     DeleteDayUsecase,
+    GetAllDayUsecase,
+
+    // Time
+    AddTimeUsecase,
+    UpdateTimeUsecase,
+    DeleteTimeUsecase,
+    GetAllTimeUsecase,
+
+    // Component
+    AddComponentUsecase,
+    UpdateComponentUsecase,
     DeleteComponentUsecase,
+    GetAllComponentUsecase,
+
+    // Event
+    AddEventUsecase,
+    UpdateEventUsecase,
+    DeleteEventUsecase,
+    GetAllEventUsecase,
     PrismaService,
     {
       provide: LEVEL_REPO_TOKEN,

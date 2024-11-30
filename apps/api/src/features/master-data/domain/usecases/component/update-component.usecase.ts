@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UseCase } from 'src/core/domain/usecases/usecase';
 import { DataState } from 'src/core/resources/data.state';
 import { COMPONENT_REPO_TOKEN } from 'src/core/const/provider.token';
@@ -17,6 +17,14 @@ export class UpdateComponentUsecase
   ) {}
 
   async execute(input: ComponentEntity): Promise<DataState<ComponentEntity>> {
+    this.logger.debug(`Checking component existence with id: ${input.id}`);
+    const existingComponent = await this.componentRepository.findById(input.id);
+
+    if (!existingComponent.data) {
+      this.logger.warn(`Component with id ${input.id} not found`);
+      throw new NotFoundException('Component not found');
+    }
+
     this.logger.debug(`Updating component with id: ${input.id}`);
     const result = await this.componentRepository.update(input);
 

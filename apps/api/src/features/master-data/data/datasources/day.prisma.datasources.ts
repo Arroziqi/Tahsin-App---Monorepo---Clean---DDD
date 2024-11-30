@@ -1,4 +1,4 @@
-import { DataState, DataSuccess } from 'src/core/resources/data.state';
+import { DataFailed, DataState, DataSuccess } from 'src/core/resources/data.state';
 import { DayModel } from 'src/features/master-data/data/models/day.model';
 import { Injectable, Logger } from '@nestjs/common';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
@@ -49,7 +49,7 @@ export class DayPrismaDataSourcesImpl implements DayPrismaDatasources {
       return new DataSuccess(new DayModel(data));
     } catch (error) {
       this.logger.error(`Error finding day with id ${id}: ${error.message}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
@@ -68,7 +68,7 @@ export class DayPrismaDataSourcesImpl implements DayPrismaDatasources {
 
       if (!data) {
         this.logger.warn(`Day with name: ${name} not found`);
-        throw new ErrorEntity(404, 'Day not found');
+        return new DataFailed(new ErrorEntity(404, 'Day not found'));
       }
 
       this.logger.log(`Successfully found day with name: ${name}`);
@@ -100,7 +100,7 @@ export class DayPrismaDataSourcesImpl implements DayPrismaDatasources {
       return new DataSuccess(data.map((day) => new DayModel(day)));
     } catch (error) {
       this.logger.error(`Error finding all days: ${error.message}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 

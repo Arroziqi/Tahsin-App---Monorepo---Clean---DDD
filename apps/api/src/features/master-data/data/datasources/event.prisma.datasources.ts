@@ -1,6 +1,10 @@
-import { DataState, DataSuccess } from 'src/core/resources/data.state';
+import {
+  DataFailed,
+  DataState,
+  DataSuccess,
+} from 'src/core/resources/data.state';
 import { EventModel } from 'src/features/master-data/data/models/event.model';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
 import { PrismaService } from 'src/common/services/prisma.service';
 
@@ -52,7 +56,7 @@ export class EventPrismaDataSourcesImpl implements EventPrismaDatasources {
       return new DataSuccess(new EventModel(data));
     } catch (error) {
       this.logger.error(`Error finding event with id ${id}: ${error.message}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
@@ -71,7 +75,7 @@ export class EventPrismaDataSourcesImpl implements EventPrismaDatasources {
 
       if (!data) {
         this.logger.warn(`Event with name: ${name} not found`);
-        throw new ErrorEntity(404, 'Event not found');
+        return new DataFailed(new ErrorEntity(404, 'Event not found'));
       }
 
       this.logger.log(`Successfully found event with name: ${name}`);
@@ -103,7 +107,7 @@ export class EventPrismaDataSourcesImpl implements EventPrismaDatasources {
       return new DataSuccess(data.map((event) => new EventModel(event)));
     } catch (error) {
       this.logger.error(`Error finding all events: ${error.message}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 

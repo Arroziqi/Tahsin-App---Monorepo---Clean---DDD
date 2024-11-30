@@ -183,6 +183,7 @@ model Schedule {
 model Time {
   id   Int    @id @default(autoincrement())
   time String @unique(map: "time_name_unique") @db.VarChar(20)
+  status Boolean
 
   schedules Schedule[]
 }

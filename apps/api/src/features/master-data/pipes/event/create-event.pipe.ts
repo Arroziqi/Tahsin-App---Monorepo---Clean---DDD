@@ -2,13 +2,15 @@ import {
   ArgumentMetadata,
   BadRequestException,
   Injectable,
+  Logger,
   PipeTransform,
 } from '@nestjs/common';
 import { AddEventSchema } from '../../presentation/dto/event/add-event.dto';
 
 @Injectable()
 export class CreateEventPipe implements PipeTransform {
-  logger: any;
+  private readonly logger = new Logger(CreateEventPipe.name);
+
   async transform(value: any, metadata: ArgumentMetadata) {
     this.logger.debug('Starting request validation');
 

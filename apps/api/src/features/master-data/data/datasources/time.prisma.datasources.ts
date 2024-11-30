@@ -1,4 +1,8 @@
-import { DataState, DataSuccess } from 'src/core/resources/data.state';
+import {
+  DataFailed,
+  DataState,
+  DataSuccess,
+} from 'src/core/resources/data.state';
 import { TimeModel } from 'src/features/master-data/data/models/time.model';
 import { Injectable, Logger } from '@nestjs/common';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
@@ -52,7 +56,7 @@ export class TimePrismaDataSourcesImpl implements TimePrismaDatasources {
       return new DataSuccess(new TimeModel(data));
     } catch (error) {
       this.logger.error(`Error finding time with id ${id}: ${error.message}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
@@ -71,14 +75,14 @@ export class TimePrismaDataSourcesImpl implements TimePrismaDatasources {
 
       if (!data) {
         this.logger.warn(`Time with name: ${name} not found`);
-        throw new ErrorEntity(404, 'Time not found');
+        return new DataFailed(new ErrorEntity(404, 'Time not found'));
       }
 
       this.logger.log(`Successfully found time with name: ${name}`);
       return new DataSuccess(new TimeModel(data));
     } catch (error) {
       this.logger.error(`Error finding time with name: ${name}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
@@ -103,18 +107,18 @@ export class TimePrismaDataSourcesImpl implements TimePrismaDatasources {
       return new DataSuccess(data.map((time) => new TimeModel(time)));
     } catch (error) {
       this.logger.error(`Error finding all times: ${error.message}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
   async create(time: TimeModel): Promise<DataState<TimeModel>> {
     try {
-      this.logger.log(`Creating time with id: ${time.id}`);
+      this.logger.log(`Creating time`);
       const data = await this.prismaService.time.create({
         data: time,
       });
 
-      this.logger.log(`Successfully created time with id: ${time.id}`);
+      this.logger.log(`Successfully created time`);
       return new DataSuccess(new TimeModel(data));
     } catch (e) {
       this.logger.error(`Error creating time: ${e}`);

@@ -2,13 +2,15 @@ import {
   ArgumentMetadata,
   BadRequestException,
   Injectable,
+  Logger,
   PipeTransform,
 } from '@nestjs/common';
 import { AddComponentSchema } from '../../presentation/dto/component/add-component.dto';
 
 @Injectable()
 export class CreateComponentPipe implements PipeTransform {
-  logger: any;
+  private readonly logger = new Logger(CreateComponentPipe.name);
+
   async transform(value: any, metadata: ArgumentMetadata) {
     this.logger.debug('Starting request validation');
 

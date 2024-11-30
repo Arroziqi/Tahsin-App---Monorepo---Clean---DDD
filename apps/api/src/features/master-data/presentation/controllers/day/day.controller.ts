@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { DataState } from 'src/core/resources/data.state';
+import { DataFailed, DataState } from 'src/core/resources/data.state';
 import { DayEntity } from 'src/features/master-data/domain/entities/day.entity';
 import { AddDayUsecase } from 'src/features/master-data/domain/usecases/day/add-day.usecase';
 import { DeleteDayUsecase } from 'src/features/master-data/domain/usecases/day/delete-day.usecase';
