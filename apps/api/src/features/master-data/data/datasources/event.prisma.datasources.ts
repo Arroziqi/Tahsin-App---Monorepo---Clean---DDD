@@ -4,7 +4,7 @@ import {
   DataSuccess,
 } from 'src/core/resources/data.state';
 import { EventModel } from 'src/features/master-data/data/models/event.model';
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
 import { PrismaService } from 'src/common/services/prisma.service';
 

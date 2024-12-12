@@ -18,7 +18,7 @@ export class UpdateDayUsecase
   async execute(input: DayEntity): Promise<DataState<DayEntity>> {
     this.logger.debug(`Checking if day with id ${input.id} exists`);
     const day = await this.dayRepository.findById(input.id);
-    
+
     if (!day.data) {
       this.logger.error(`Day with id ${input.id} not found`);
       throw new NotFoundException(`Day with id ${input.id} not found`);

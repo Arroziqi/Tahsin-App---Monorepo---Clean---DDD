@@ -1,4 +1,4 @@
-import { UserEntity } from "../../../user-management/domain/entities/user.entity";
+import { UserEntity } from '../../../user-management/domain/entities/user.entity';
 
 export class RoleEntity {
   id: number;

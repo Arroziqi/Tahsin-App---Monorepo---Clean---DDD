@@ -6,15 +6,16 @@ import { ProfileModel } from '../../models/profile.model';
 
 export interface ProfileDatasources {
   create(profile: ProfileModel): Promise<DataState<ProfileModel>>;
-  findById(
-    id: number,
-    includeUser?: boolean,
-  ): Promise<DataState<ProfileModel>>;
+
+  findById(id: number, includeUser?: boolean): Promise<DataState<ProfileModel>>;
+
   findByUserId(
     userId: number,
     includeUser?: boolean,
   ): Promise<DataState<ProfileModel>>;
+
   findAll(includeUser?: boolean): Promise<DataState<ProfileModel[]>>;
+
   update(profile: Partial<ProfileModel>): Promise<DataState<ProfileModel>>;
 }
 
@@ -97,7 +98,7 @@ export class ProfileDatasourcesImpl implements ProfileDatasources {
         where: { user_id: userId },
         include: { user: includeUser },
       });
-      
+
       if (!data) {
         this.logger.log('Profile not found');
         return {
@@ -145,7 +146,9 @@ export class ProfileDatasourcesImpl implements ProfileDatasources {
     }
   }
 
-  async update(profile: Partial<ProfileModel>): Promise<DataState<ProfileModel>> {
+  async update(
+    profile: Partial<ProfileModel>,
+  ): Promise<DataState<ProfileModel>> {
     try {
       this.logger.log(`Updating profile: ${JSON.stringify(profile)}`);
       const { id, user_id, user, ...updateData } = profile;

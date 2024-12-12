@@ -35,10 +35,10 @@ export class RefreshTokenStrategy extends PassportStrategy(
   ): Promise<DataState<UserModel>> {
     try {
       this.logger.debug(`Validating refresh token for user ID: ${payload.sub}`);
-      
+
       const userId = payload.sub;
       const refreshToken = ExtractJwt.fromAuthHeaderAsBearerToken()(request);
-      
+
       return this.authService.validateRefreshToken(userId, refreshToken);
     } catch (error) {
       this.logger.error(`Refresh token validation failed: ${error.message}`);

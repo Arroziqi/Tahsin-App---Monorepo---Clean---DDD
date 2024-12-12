@@ -1,9 +1,9 @@
 import {
   Inject,
   Injectable,
-  UnauthorizedException,
-  Logger,
   InternalServerErrorException,
+  Logger,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserRepository } from '../domain/repository/user.repository';
 import { USER_REPO_TOKEN } from 'src/core/const/provider.token';
@@ -145,7 +145,10 @@ export class AuthService {
       throw new UnauthorizedException('User not found!');
     }
 
-    const isRefreshTokenValid = await bcrypt.compare(refreshToken, user.data.hashedRefreshToken);
+    const isRefreshTokenValid = await bcrypt.compare(
+      refreshToken,
+      user.data.hashedRefreshToken,
+    );
 
     if (!isRefreshTokenValid) {
       this.logger.warn(`Invalid refresh token for user ID: ${userId}`);
@@ -185,7 +188,7 @@ export class AuthService {
     }
   }
 
-  async logout(userId: number): Promise<DataState<String>> {
+  async logout(userId: number): Promise<DataState<string>> {
     try {
       this.logger.debug(`Attempting logout for user ID: ${userId}`);
 

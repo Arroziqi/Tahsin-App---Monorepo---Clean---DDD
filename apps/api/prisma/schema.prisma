@@ -115,6 +115,7 @@ model Class {
 
   grade_components GradeComponent[]
   sessions         Session[]
+  course_fee CourseFee[]
 }
 
 model Level {
@@ -194,4 +195,19 @@ model Day {
   status Boolean
 
   schedules Schedule[]
+}
+
+model BankAccounts {
+  id Int @id @default(autoincrement())
+  account_name String @unique @db.VarChar(255)
+  account_number Int @unique
+  bank_name String @db.VarChar(100)
+}
+
+model CourseFee {
+  id Int @id @default(autoincrement())
+  fee Int 
+  class_id Int
+
+  class Class @relation(fields: [class_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

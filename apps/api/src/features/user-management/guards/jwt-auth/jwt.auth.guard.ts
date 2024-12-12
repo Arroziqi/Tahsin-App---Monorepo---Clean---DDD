@@ -12,17 +12,21 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     super();
   }
 
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
     const handler = context.getHandler().name;
     const className = context.getClass().name;
-    
+
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
 
     if (isPublic) {
-      this.logger.debug(`Skipping auth for public endpoint: ${className}.${handler}`);
+      this.logger.debug(
+        `Skipping auth for public endpoint: ${className}.${handler}`,
+      );
       return true;
     }
 
