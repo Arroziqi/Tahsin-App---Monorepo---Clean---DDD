@@ -15,7 +15,7 @@ export class DeleteDayUsecase implements UseCase<number, DataState<string>> {
   async execute(input: number): Promise<DataState<string>> {
     this.logger.debug(`Checking if day with id ${input} exists`);
     const day = await this.dayRepository.findById(input);
-    
+
     if (!day.data) {
       this.logger.error(`Day with id ${input} not found`);
       throw new NotFoundException(`Day with id ${input} not found`);

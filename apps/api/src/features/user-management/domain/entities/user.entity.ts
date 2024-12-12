@@ -1,5 +1,6 @@
-import { ProfileEntity } from "./profile.entity";
-import { RoleEntity } from "./role.entity";
+import { ProfileEntity } from './profile.entity';
+import { RoleEntity } from './role.entity';
+
 // import { RegistrationEntity } from "./registration.entity";
 
 export class UserEntity {

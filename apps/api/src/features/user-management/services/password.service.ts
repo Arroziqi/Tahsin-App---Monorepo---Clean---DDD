@@ -17,7 +17,10 @@ export class PasswordService {
     }
   }
 
-  async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
+  async comparePassword(
+    password: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
     this.logger.debug('Comparing passwords');
     try {
       const isMatch = await bcrypt.compare(password, hashedPassword);

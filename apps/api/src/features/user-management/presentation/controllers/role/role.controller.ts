@@ -5,13 +5,12 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Logger,
   Param,
   ParseIntPipe,
   Patch,
   Post,
   UseGuards,
-  Logger,
-  Request,
 } from '@nestjs/common';
 import { CreateRoleUsecase } from '../../../domain/usecases/role/create.usecase';
 import { RoleModel } from '../../../data/models/role.model';
@@ -55,9 +54,7 @@ export class RoleController {
   }
 
   @Post('/create')
-  async createRole(
-    @Body() request: RoleModel,
-  ): Promise<DataState<RoleModel>> {
+  async createRole(@Body() request: RoleModel): Promise<DataState<RoleModel>> {
     try {
       return await this.createRoleUsecase.execute(request);
     } catch (error) {
@@ -89,7 +86,7 @@ export class RoleController {
   @Delete('/delete/:id')
   async deleteRole(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<DataState<String>> {
+  ): Promise<DataState<string>> {
     try {
       await this.deleteRoleUsecase.execute(id);
 

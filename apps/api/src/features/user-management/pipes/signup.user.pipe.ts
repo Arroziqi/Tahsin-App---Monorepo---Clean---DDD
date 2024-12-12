@@ -2,8 +2,8 @@ import {
   ArgumentMetadata,
   BadRequestException,
   Injectable,
-  PipeTransform,
   Logger,
+  PipeTransform,
 } from '@nestjs/common';
 import { SignupUserSchema } from '../presentation/dto/signup.dto';
 import { UserModel } from '../data/models/user.model';
@@ -21,7 +21,7 @@ export class SignupUserPipe implements PipeTransform {
 
   async transform(value: any, metadata: ArgumentMetadata) {
     this.logger.debug('Starting user signup validation');
-    
+
     const result = SignupUserSchema.safeParse(value);
     if (!result.success) {
       this.logger.error('Signup validation failed', result.error.errors);

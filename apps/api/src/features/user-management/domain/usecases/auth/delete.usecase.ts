@@ -1,8 +1,8 @@
-import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { USER_REPO_TOKEN } from "src/core/const/provider.token";
-import { UseCase } from "src/core/domain/usecases/usecase";
-import { DataState } from "src/core/resources/data.state";
-import { UserRepository } from "../../repository/user.repository";
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { USER_REPO_TOKEN } from 'src/core/const/provider.token';
+import { UseCase } from 'src/core/domain/usecases/usecase';
+import { DataState } from 'src/core/resources/data.state';
+import { UserRepository } from '../../repository/user.repository';
 
 @Injectable()
 export class DeleteUsecase implements UseCase<number, DataState<string>> {
@@ -14,9 +14,9 @@ export class DeleteUsecase implements UseCase<number, DataState<string>> {
 
   async execute(input: number): Promise<DataState<string>> {
     this.logger.debug(`Checking if user exists with ID: ${input}`);
-    
+
     const existingUser = await this.userRepository.findById(input);
-    
+
     if (!existingUser.data) {
       this.logger.warn(`User with ID ${input} not found`);
       throw new NotFoundException(`User with ID ${input} not found`);

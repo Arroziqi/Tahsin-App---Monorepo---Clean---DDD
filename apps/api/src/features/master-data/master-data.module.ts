@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import {
+  BANK_ACCOUNT_REPO_TOKEN,
   COMPONENT_REPO_TOKEN,
+  COURSE_FEE_REPO_TOKEN,
   DAY_REPO_TOKEN,
   EVENT_REPO_TOKEN,
   LEVEL_REPO_TOKEN,
@@ -37,6 +39,19 @@ import { GetAllDayUsecase } from './domain/usecases/day/getAll-day';
 import { GetAllComponentUsecase } from './domain/usecases/component/getAll-component.usecase';
 import { GetAllTimeUsecase } from './domain/usecases/time/getAll-time.usecase';
 import { GetAllEventUsecase } from './domain/usecases/event/getAll-event.usecase';
+import { BankAccountPrismaDatasourcesImpl } from './data/datasources/bank-account.prisma.datasources';
+import { CourseFeePrismaDatasourcesImpl } from './data/datasources/course-fee.prisma.datasources';
+import { AddBankAccountUseCase } from 'src/features/master-data/domain/usecases/bank-account/add-bank-account.usecase';
+import { UpdateBankAccountUsecase } from 'src/features/master-data/domain/usecases/bank-account/update-bank-account.usecase';
+import { DeleteBankAccountUseCase } from 'src/features/master-data/domain/usecases/bank-account/delete-bank-account.usecase';
+import { GetAllBankAccountUsecase } from 'src/features/master-data/domain/usecases/bank-account/getAll-bank-account.usecase';
+import { AddCourseFeeUsecase } from 'src/features/master-data/domain/usecases/course-fee/add-course-fee.usecase';
+import { UpdateCourseFeeUsecase } from 'src/features/master-data/domain/usecases/course-fee/update-course-fee.usecase';
+import { DeleteCourseFeeUsecase } from 'src/features/master-data/domain/usecases/course-fee/delete-course-fee.usecase';
+import { GetAllCourseFeeUsecase } from 'src/features/master-data/domain/usecases/course-fee/getAll-course-fee.usecase';
+import { BankAccountController } from 'src/features/master-data/presentation/controllers/bank-account/bank-account.controller';
+import { CourseFeeController } from 'src/features/master-data/presentation/controllers/course-fee/course-fee.controller';
+
 @Module({
   controllers: [
     LevelController,
@@ -44,6 +59,8 @@ import { GetAllEventUsecase } from './domain/usecases/event/getAll-event.usecase
     TimeController,
     ComponentController,
     EventController,
+    BankAccountController,
+    CourseFeeController,
   ],
   providers: [
     // Level
@@ -75,7 +92,23 @@ import { GetAllEventUsecase } from './domain/usecases/event/getAll-event.usecase
     UpdateEventUsecase,
     DeleteEventUsecase,
     GetAllEventUsecase,
+
+    // Bank Account
+    AddBankAccountUseCase,
+    UpdateBankAccountUsecase,
+    DeleteBankAccountUseCase,
+    GetAllBankAccountUsecase,
+
+    //  Course Fee
+    AddCourseFeeUsecase,
+    UpdateCourseFeeUsecase,
+    DeleteCourseFeeUsecase,
+    GetAllCourseFeeUsecase,
+
+    // service
     PrismaService,
+
+    // Repository
     {
       provide: LEVEL_REPO_TOKEN,
       useClass: LevelPrismaDataSourcesImpl,
@@ -95,6 +128,14 @@ import { GetAllEventUsecase } from './domain/usecases/event/getAll-event.usecase
     {
       provide: DAY_REPO_TOKEN,
       useClass: DayPrismaDataSourcesImpl,
+    },
+    {
+      provide: BANK_ACCOUNT_REPO_TOKEN,
+      useClass: BankAccountPrismaDatasourcesImpl,
+    },
+    {
+      provide: COURSE_FEE_REPO_TOKEN,
+      useClass: CourseFeePrismaDatasourcesImpl,
     },
   ],
 })

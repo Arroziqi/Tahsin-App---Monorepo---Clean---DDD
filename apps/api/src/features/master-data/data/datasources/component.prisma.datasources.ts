@@ -10,10 +10,15 @@ import { PrismaService } from 'src/common/services/prisma.service';
 
 export interface ComponentPrismaDatasources {
   findById(id: number): Promise<DataState<ComponentModel>>;
+
   findByName(name: string): Promise<DataState<ComponentModel>>;
+
   findAll(): Promise<DataState<ComponentModel[]>>;
+
   create(component: ComponentModel): Promise<DataState<ComponentModel>>;
+
   update(component: ComponentModel): Promise<DataState<ComponentModel>>;
+
   delete(id: number): Promise<DataState<string>>;
 }
 
@@ -65,7 +70,7 @@ export class ComponentPrismaDataSourcesImpl
       return new DataSuccess(new ComponentModel(data));
     } catch (error) {
       this.logger.error(`Error finding component with name: ${name}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
@@ -89,7 +94,7 @@ export class ComponentPrismaDataSourcesImpl
       );
     } catch (error) {
       this.logger.error(`Error finding all components: ${error.message}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
@@ -104,7 +109,7 @@ export class ComponentPrismaDataSourcesImpl
       return new DataSuccess(new ComponentModel(data));
     } catch (error) {
       this.logger.error(`Error creating component: ${error.message}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
@@ -122,7 +127,7 @@ export class ComponentPrismaDataSourcesImpl
       return new DataSuccess(new ComponentModel(data));
     } catch (error) {
       this.logger.error(`Error updating component with id: ${component.id}`);
-      throw new ErrorEntity(500, error.message);
+      throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 

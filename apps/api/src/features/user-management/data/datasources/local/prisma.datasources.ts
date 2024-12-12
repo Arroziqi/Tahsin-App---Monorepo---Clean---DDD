@@ -8,13 +8,18 @@ export interface PrismaDataSources {
     email: string,
     includeRole?: boolean,
   ): Promise<DataState<UserModel>>;
+
   findById(id: number, includeRole?: boolean): Promise<DataState<UserModel>>;
+
   create(user: UserModel): Promise<DataState<UserModel>>;
+
   updateHashedRefreshToken(
     userId: number,
     hashedRefreshToken: string | null,
-  ): Promise<DataState<String>>;
+  ): Promise<DataState<string>>;
+
   update(user: UserModel): Promise<DataState<UserModel>>;
+
   delete(id: number): Promise<DataState<string>>;
 }
 
@@ -122,10 +127,10 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
   async updateHashedRefreshToken(
     userId: number,
     hashedRefreshToken: string | null,
-  ): Promise<DataState<String>> {
+  ): Promise<DataState<string>> {
     try {
       this.logger.debug(`Updating hashed refresh token for user ID: ${userId}`);
-      
+
       await this.prismaService.user.update({
         where: { id: userId },
         data: {
@@ -191,11 +196,11 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
       this.logger.debug('User deleted successfully');
       return {
         data: 'User deleted successfully',
-        error: undefined
+        error: undefined,
       };
     } catch (error) {
       this.logger.error('Error deleting user', {
-        error: error.message
+        error: error.message,
       });
       throw error;
     }

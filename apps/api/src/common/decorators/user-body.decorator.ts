@@ -1,13 +1,13 @@
-import { createParamDecorator } from "@nestjs/common";
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-import { ExecutionContext } from "@nestjs/common";
+export const UserBody = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    const body = request.body;
 
-export const UserBody = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
-  const request = ctx.switchToHttp().getRequest();
-  const body = request.body;
-
-  return {
-    ...body,
-    user_id: request.user.data.id,
-  };
-});
+    return {
+      ...body,
+      user_id: request.user.data.id,
+    };
+  },
+);

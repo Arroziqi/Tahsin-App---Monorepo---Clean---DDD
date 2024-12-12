@@ -1,4 +1,8 @@
-import { DataFailed, DataState, DataSuccess } from 'src/core/resources/data.state';
+import {
+  DataFailed,
+  DataState,
+  DataSuccess,
+} from 'src/core/resources/data.state';
 import { DayModel } from 'src/features/master-data/data/models/day.model';
 import { Injectable, Logger } from '@nestjs/common';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
