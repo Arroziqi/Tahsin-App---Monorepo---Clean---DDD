@@ -1,18 +1,18 @@
 import {
   Body,
   Controller,
-  Post,
+  Delete,
+  Get,
   HttpException,
   HttpStatus,
-  UseInterceptors,
   Logger,
-  UseGuards,
-  Request,
-  Get,
-  Put,
   Param,
-  Delete,
   ParseIntPipe,
+  Post,
+  Put,
+  Request,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { DataState } from 'src/core/resources/data.state';
 import { UserModel } from '../../../data/models/user.model';
@@ -40,6 +40,12 @@ export class AuthController {
     private readonly deleteUsecase: DeleteUsecase,
   ) {
     this.logger.log('AuthController initialized');
+  }
+
+  @Public()
+  @Get('/hello')
+  async getHello() {
+    return 'Hello';
   }
 
   @Public()

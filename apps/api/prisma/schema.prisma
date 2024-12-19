@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -115,7 +116,7 @@ model Class {
 
   grade_components GradeComponent[]
   sessions         Session[]
-  course_fee CourseFee[]
+  course_fee       CourseFee[]
 }
 
 model Level {
@@ -182,8 +183,8 @@ model Schedule {
 }
 
 model Time {
-  id   Int    @id @default(autoincrement())
-  time String @unique(map: "time_name_unique") @db.VarChar(20)
+  id     Int     @id @default(autoincrement())
+  time   String  @unique(map: "time_name_unique") @db.VarChar(20)
   status Boolean
 
   schedules Schedule[]
@@ -198,15 +199,15 @@ model Day {
 }
 
 model BankAccounts {
-  id Int @id @default(autoincrement())
-  account_name String @unique @db.VarChar(255)
-  account_number Int @unique
-  bank_name String @db.VarChar(100)
+  id             Int    @id @default(autoincrement())
+  account_name   String @unique @db.VarChar(255)
+  account_number Int    @unique
+  bank_name      String @db.VarChar(100)
 }
 
 model CourseFee {
-  id Int @id @default(autoincrement())
-  fee Int 
+  id       Int @id @default(autoincrement())
+  fee      Int
   class_id Int
 
   class Class @relation(fields: [class_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

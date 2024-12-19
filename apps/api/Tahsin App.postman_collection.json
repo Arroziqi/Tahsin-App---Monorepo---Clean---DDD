@@ -1,0 +1,6949 @@
+{
+	"info": {
+		"_postman_id": "089b005f-57d8-458b-8550-d1b0699b1a5d",
+		"name": "Tahsin App",
+		"description": "# 🚀 Get started here\n<!--\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)\n\n-->",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39133117"
+	},
+	"item": [
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Signup",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Eminem\",\n    \"email\": \"eminem@example.com\",\n    \"password\": \"securepassword123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"signup"
+									]
+								},
+								"description": "# User Signup\n\nThis endpoint allows users to sign up by providing their username, email, and password.\n\n## Request Body\n\n- `username` (string) : The username of the user (min 3 char).\n    \n- `email` (string) : The email address of the user.\n    \n- `password` (string) : The password for the user account (min 6 char)."
+							},
+							"response": [
+								{
+									"name": "Failed - Email already access",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"johndoe\",\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"securepassword123\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/signup",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"signup"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "81"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"51-/ils/4vjYiyYwJsE7UeLtFJOglo\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:47:33 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"status\": 400,\n        \"error\": \"Email already exist, please use another email\"\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"Eminem\",\n    \"email\": \"eminem@example.com\",\n    \"password\": \"securepassword123\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/signup",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"signup"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "79"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4f-d99FmJoZMI9G3Qa8P5Vf3TBkC1o\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:48:32 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 13,\n        \"username\": \"Eminem\",\n        \"email\": \"eminem@example.com\",\n        \"role_id\": 2\n    }\n}"
+								},
+								{
+									"name": "Failed - Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"Eminem\",\n    \"email\": \"eminem@example\",\n    \"password\": \"securepassword123\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/signup",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"signup"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "164"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"a4-RrcUA/ax9xJNj0q9Zgp0Bn6ISVI\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:49:18 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": [\n            {\n                \"validation\": \"email\",\n                \"code\": \"invalid_string\",\n                \"message\": \"Format email tidak valid\",\n                \"path\": [\n                    \"email\"\n                ]\n            }\n        ],\n        \"error\": \"Bad Request\",\n        \"statusCode\": 400\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Signin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"eminem@example.com\",\n    \"password\": \"securepassword123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/signin",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"signin"
+									]
+								},
+								"description": "## Response\n\n1. `accessToken` is used as a Bearer token in most requests\n    \n2. `refreshToken` is used to obtain a new access token when the current one expires."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"securepassword123\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/signin",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"signin"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "427"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1ab-R3Iga9+6Q4ulzv3erCjWMuhmLDU\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:50:09 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 12,\n        \"email\": \"johndoe@example.com\",\n        \"username\": \"johndoe\",\n        \"role_id\": 1,\n        \"role\": {\n            \"id\": 1,\n            \"name\": \"Admin\"\n        },\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzI2NTQyMDksImV4cCI6MTczMjc0MDYwOX0.ssAidG7UzwBG75tgSeAyw4c5R_0NExDm4E8iZ6mddvo\",\n        \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzI2NTQyMDksImV4cCI6MTczMzI1OTAwOX0.Yrvf7nDEGT6ipKI1Wg245YH61e-xlN5xeaQL4DVEebk\"\n    }\n}"
+								},
+								{
+									"name": "Failed - Invalid Credentials",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"securepassword1\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/signin",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"signin"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "85"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"55-b7+EBjodCBgrkAEg3JgtOmZ848E\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:50:28 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Invalid credentials!\",\n        \"error\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Current User",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzIzOTA1NDIsImV4cCI6MTczMjQ3Njk0Mn0.ii-YSOzIs4BqvXvJKuyOAVIwnIs96UGYPg860vXwp2E",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/current",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"current"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/current",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"current"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "112"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"70-59ZDGt3sGD4enJt1h9sS61/J4iA\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:51:26 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 12,\n        \"email\": \"johndoe@example.com\",\n        \"username\": \"johndoe\",\n        \"role_id\": 1,\n        \"role\": {\n            \"id\": 1,\n            \"name\": \"Admin\"\n        }\n    }\n}"
+								},
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/current",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"current"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:51:45 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Refresh Token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzIzOTA1NDIsImV4cCI6MTczMjk5NTM0Mn0.hNbXU_6Z3xpYyhpjlDUdKaxxx_2RFIxKimEDnlNvUzk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"refresh"
+									]
+								},
+								"description": "The `POST /users/refresh` endpoint is used to refresh `accessToken`. This endpoint need a current `refreshToken` as a bearer token."
+							},
+							"response": [
+								{
+									"name": "Failed - Invalid Refresh Token",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/api/users/refresh",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"refresh"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "87"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"57-eCj9dJOoR3aXReRo4YYCBKniGUA\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:52:45 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Invalid refresh token!\",\n        \"error\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/users/refresh",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"refresh"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:53:25 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Signout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzIzOTA1NDIsImV4cCI6MTczMjQ3Njk0Mn0.ii-YSOzIs4BqvXvJKuyOAVIwnIs96UGYPg860vXwp2E",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/signout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"signout"
+									]
+								},
+								"description": "#### Response\n\nThe response will not contain any data, but will indicate the success or failure of the sign out operation."
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/api/users/signout",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"signout"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:55:27 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/users/signout",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"signout"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "28"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1c-ldT/YQXBCpQgQG8TVQqL0d3zl4g\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:56:15 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"Logout successful\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var template = `",
+											"<style type=\"text/css\">",
+											"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+											"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+											"    .tftable tr {background-color:#ffffff;}",
+											"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+											"    .tftable tr:hover {background-color:#e0ffff;}",
+											"</style>",
+											"",
+											"<table class=\"tftable\" border=\"1\">",
+											"    <tr>",
+											"        <th>ID</th>",
+											"        <th>Email</th>",
+											"        <th>Username</th>",
+											"        <th>Role ID</th>",
+											"    </tr>",
+											"    <tr>",
+											"        <td>{{response.data.id}}</td>",
+											"        <td>{{response.data.email}}</td>",
+											"        <td>{{response.data.username}}</td>",
+											"        <td>{{response.data.role_id}}</td>",
+											"    </tr>",
+											"</table>",
+											"`;",
+											"",
+											"function constructVisualizerPayload() {",
+											"    return {response: pm.response.json()}",
+											"}",
+											"",
+											"pm.visualizer.set(template, constructVisualizerPayload());"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMjM0Nzc3MiwiZXhwIjoxNzMyNDM0MTcyfQ.NkC2hBi1R_j8NAai0GI1n7PEMv7tFvVZbMvkToTYqto",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"YourPassword123!\",\n    \"username\": \"johndoe\",\n    \"role_id\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/update/10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"update",
+										"10"
+									]
+								},
+								"description": "### Update User\n\nThis endpoint allows an **admin** to update a user's information. Only **admin** users are permitted to perform this action.\n\n#### Request Body\n\nAll of the request body parameters are optional.\n\n- `email` (string, optional): The email address of the user.\n    \n- `password` (string, optional): The new password for the user account.\n    \n- `username` (string, optional): The username of the user.\n    \n- `role_id` (integer, optional): The ID of the user's role.\n    \n\n#### Response\n\nThe response contains a user model with the updated information."
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"YourPassword123!\",\n    \"username\": \"johndoe\",\n    \"role_id\": 2\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/update/10",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"update",
+												"10"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:56:59 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"YourPassword123!\",\n    \"username\": \"johndoe\",\n    \"role_id\": 2\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/users/update/10",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"update",
+												"10"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "82"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"52-9+bUi/S/v/78Tyxmuv65MR7bZvE\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:57:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 10,\n        \"email\": \"john.doe@example.com\",\n        \"username\": \"johndoe\",\n        \"role_id\": 2\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMjM0Nzc3MiwiZXhwIjoxNzMyNDM0MTcyfQ.NkC2hBi1R_j8NAai0GI1n7PEMv7tFvVZbMvkToTYqto",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/delete/9",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"delete",
+										"9"
+									]
+								},
+								"description": "### Delete User -- Role = Admin\n\nThis endpoint is used to delete a specific user from the system.\n\n#### Response\n\nThe response will not include a body, but will return a status code to indicate the success or failure of the deletion operation."
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/api/users/delete/9",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"delete",
+												"9"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:59:04 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - User not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/users/delete/9",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"delete",
+												"9"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "86"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"56-wJw/pDglOaOtp/vvCcS5XrtVC0Q\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:59:25 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"User with ID 9 not found\",\n        \"error\": \"Not Found\",\n        \"statusCode\": 404\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/users/delete/8",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"users",
+												"delete",
+												"8"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "36"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"24-JtJe1+sRyL98Q4lpRCqZWbS5+/g\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:59:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"User deleted successfully\"\n}"
+								}
+							]
+						}
+					],
+					"description": "This folder contains a collection of requests related to user authentication, including CRUD operations for user"
+				},
+				{
+					"name": "Role",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzI2MDM3NDAsImV4cCI6MTczMjY5MDE0MH0.PDTvsZdJcAjm79Q9mvUBFYDQXw7cCsAGsYive_gJDHA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"User\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/roles/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"roles",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"User\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/roles/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"roles",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "32"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"20-l1HQSb8tAXYm06y6B4lLDJlAPoo\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:00:30 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 15,\n        \"name\": \"User\"\n    }\n}"
+								},
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"User\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/roles/create",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												"create"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:02:45 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Role already exist",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"User\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/roles/create",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4d-+Mpdma3Ez4q2MDNRwDzDT/735r8\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:03:32 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"error\": {\n        \"statusCode\": 409,\n        \"message\": \"Role already exists\",\n        \"errors\": \"Error\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzI2MDM3NDAsImV4cCI6MTczMjY5MDE0MH0.PDTvsZdJcAjm79Q9mvUBFYDQXw7cCsAGsYive_gJDHA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/roles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"roles"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/api/roles",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"roles"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:04:26 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/roles",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "2155"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"86b-tZNcQFFDxdMldxe94Wv+MVLzBUs\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:04:45 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Admin\",\n            \"users\": [\n                {\n                    \"id\": 12,\n                    \"email\": \"johndoe@example.com\",\n                    \"password\": \"$2b$10$MJ1vzC14jG3wKMv3NY7Jw.NotaKOlNOCjcNUoN7jSfzL9VaS0Zahq\",\n                    \"username\": \"johndoe\",\n                    \"hashedRefreshToken\": \"$2b$10$CdxsE.z8K6lmFSbn/fGCW.b4Cm3wtAcxNaXpx70otpPRtiGaxYPu.\",\n                    \"role_id\": 1\n                },\n                {\n                    \"id\": 2,\n                    \"email\": \"wabil@gmail.com\",\n                    \"password\": \"$2b$10$GRmsu.epcfDiKUR4ifJ6IegYwaKaE3ny0.noi/c7Ujsvyw80MC0IC\",\n                    \"username\": \"Wabil al Ahmad\",\n                    \"hashedRefreshToken\": \"$2b$10$g.qvHCoDpGxvwIdshSc4NuSbK1pcWUa2iJFpoBlYIZMIPSt524z5i\",\n                    \"role_id\": 1\n                }\n            ]\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Student\",\n            \"users\": [\n                {\n                    \"id\": 1,\n                    \"email\": \"ahmadarroziqi@gmail.com\",\n                    \"password\": \"password123\",\n                    \"username\": \"Ahmad Arroziqi\",\n                    \"hashedRefreshToken\": null,\n                    \"role_id\": 2\n                },\n                {\n                    \"id\": 3,\n                    \"email\": \"annisa@gmail.com\",\n                    \"password\": \"$2b$10$GxAompkrOnAyPzdFenn7dOYshvfnd6CMm6PWQooG53S2CU/npusku\",\n                    \"username\": \"Annisa Risky S\",\n                    \"hashedRefreshToken\": null,\n                    \"role_id\": 2\n                },\n                {\n                    \"id\": 4,\n                    \"email\": \"risky@gmail.com\",\n                    \"password\": \"$2b$10$4Lyb8Qlr152HwUMVq1GEPO1C8KFTxjvhtCRZFzbGn09Qd2gZKGGA.\",\n                    \"username\": \"Risky S\",\n                    \"hashedRefreshToken\": null,\n                    \"role_id\": 2\n                },\n                {\n                    \"id\": 5,\n                    \"email\": \"ali@gmail.com\",\n                    \"password\": \"$2b$10$uhpkHDIffqdoRD7c7fvA/usTq/NyQTpfjJurId8yKgG80RqqfSCDe\",\n                    \"username\": \"Ali S\",\n                    \"hashedRefreshToken\": null,\n                    \"role_id\": 2\n                },\n                {\n                    \"id\": 6,\n                    \"email\": \"ahmad@gmail.com\",\n                    \"password\": \"$2b$10$DdkwKqTGu4Klvnwwk3j.NegAqMB/Per/RmLHEhEftRyT.tYSxVLyu\",\n                    \"username\": \"Ahmad\",\n                    \"hashedRefreshToken\": null,\n                    \"role_id\": 2\n                },\n                {\n                    \"id\": 7,\n                    \"email\": \"ziqi@gmail.com\",\n                    \"password\": \"$2b$10$Yf64xxxyu4eoVSiZT7bYGeXg9RuSIbj6HorVZkMCu2E4rj3/6AB46\",\n                    \"username\": \"Arroziqi\",\n                    \"hashedRefreshToken\": null,\n                    \"role_id\": 2\n                },\n                {\n                    \"id\": 11,\n                    \"email\": \"nasechah@gmail.com\",\n                    \"password\": \"$2b$10$g4.bFMGeZSiMTmphPmGtSO4v9sFNOAHConm.vOZXVozhDcz3Gb/pO\",\n                    \"username\": \"nasechah\",\n                    \"hashedRefreshToken\": \"$2b$10$eJiHU6PLsrBWwz1uS1tVgeN9v8m6ycKwnZU57ky44P11.pKsohjMa\",\n                    \"role_id\": 2\n                },\n                {\n                    \"id\": 13,\n                    \"email\": \"eminem@example.com\",\n                    \"password\": \"$2b$10$EvtUssBGpFpQhx0cAflUee3bZKhsp.3wzFhjSsvlu71hKXgYcO6i6\",\n                    \"username\": \"Eminem\",\n                    \"hashedRefreshToken\": null,\n                    \"role_id\": 2\n                },\n                {\n                    \"id\": 10,\n                    \"email\": \"john.doe@example.com\",\n                    \"password\": \"YourPassword123!\",\n                    \"username\": \"johndoe\",\n                    \"hashedRefreshToken\": null,\n                    \"role_id\": 2\n                }\n            ]\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Teacher\",\n            \"users\": []\n        },\n        {\n            \"id\": 15,\n            \"name\": \"User\",\n            \"users\": []\n        },\n        {\n            \"id\": 16,\n            \"name\": \"\",\n            \"users\": []\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzI2MDM3NDAsImV4cCI6MTczMjY5MDE0MH0.PDTvsZdJcAjm79Q9mvUBFYDQXw7cCsAGsYive_gJDHA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Teacher\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/roles/update/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"roles",
+										"update",
+										"3"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Teacher\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/roles/update/5",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												"update",
+												"5"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:05:15 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Teacher\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/roles/update/3",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												"update",
+												"3"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "34"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"22-rD5SaNqwHHPxkL19K1nkCxS7tG8\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:05:39 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 3,\n        \"name\": \"Teacher\"\n    }\n}"
+								},
+								{
+									"name": "Failed - Role not found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Teacher\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/roles/update/9",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												"update",
+												"9"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "72"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"48-NsM1ZXlTMN3YrLpPhzh8paFpOgY\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:06:32 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"error\": {\n        \"statusCode\": 404,\n        \"message\": \"Role not found\",\n        \"errors\": \"Error\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzI2MDM3NDAsImV4cCI6MTczMjY5MDE0MH0.PDTvsZdJcAjm79Q9mvUBFYDQXw7cCsAGsYive_gJDHA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/roles/delete/11",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"roles",
+										"delete",
+										"11"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/roles/delete/11",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												"delete",
+												"11"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:07:22 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Role not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/roles/delete/11",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												"delete",
+												"11"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "27"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1b-w7RIFCbbt1cqmHWMBcj3XpqYT2o\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:07:40 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": \"Role not found\"\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/roles/delete/16",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												"delete",
+												"16"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "26"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1a-njoj1pADTqZ9XGvei8wtJ8IV+Vs\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:07:58 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"OK\",\n    \"error\": null\n}"
+								}
+							]
+						}
+					],
+					"description": "Only **admin** can access this feature.",
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzI2NTQ2MDEsImV4cCI6MTczMjc0MTAwMX0.L1W7qypDUrgjRb4FbHx8eki3lWI07MV1iGV5zm1wpOU",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Create Profile",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Jhon doe\",\n    \"place_of_birth\": \"Jakarta\",\n    \"date_of_birth\": \"1995-08-15\",\n    \"address\": \"Jl. Sudirman No. 123, Jakarta Pusat\",\n    \"domicile\": \"Jakarta Selatan\",\n    \"phone_number\": \"081234567890\",\n    \"profession\": \"Software Engineer\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/profiles/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"profiles",
+										"create"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Jhon doe\",\n    \"place_of_birth\": \"Jakarta\",\n    \"date_of_birth\": \"1995-08-15\",\n    \"address\": \"Jl. Sudirman No. 123, Jakarta Pusat\",\n    \"domicile\": \"Jakarta Selatan\",\n    \"phone_number\": \"081234567890\",\n    \"profession\": \"Software Engineer\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/profiles/create",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												"create"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:08:56 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - User already has a profile",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Jhon doe\",\n    \"place_of_birth\": \"Jakarta\",\n    \"date_of_birth\": \"1995-08-15\",\n    \"address\": \"Jl. Sudirman No. 123, Jakarta Pusat\",\n    \"domicile\": \"Jakarta Selatan\",\n    \"phone_number\": \"081234567890\",\n    \"profession\": \"Software Engineer\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/profiles/create",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												"create"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "87"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"57-9FAZnDuydvbdsogj4qfA/+bvZgc\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:09:30 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"User already has a profile\",\n        \"error\": \"Conflict\",\n        \"statusCode\": 409\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Ahmad AL Wabil\",\n    \"place_of_birth\": \"Bogor\",\n    \"date_of_birth\": \"1995-08-15\",\n    \"address\": \"Jl. Sudirman No. 123, Jakarta Pusat\",\n    \"domicile\": \"Jakarta Selatan\",\n    \"phone_number\": \"081234567890\",\n    \"profession\": \"Software Engineer\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/profiles/create",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												"create"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "261"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"105-CnZ8qNouEd8hg58uRqE0xkR8Xig\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:12:13 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"Ahmad AL Wabil\",\n        \"place_of_birth\": \"Bogor\",\n        \"date_of_birth\": \"1995-08-15T00:00:00.000Z\",\n        \"address\": \"Jl. Sudirman No. 123, Jakarta Pusat\",\n        \"domicile\": \"Jakarta Selatan\",\n        \"phone_number\": \"081234567890\",\n        \"profession\": \"Software Engineer\",\n        \"user_id\": 2\n    }\n}"
+								},
+								{
+									"name": "Failed - Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Ahmad AL Wabil\",\n    \"place_of_birth\": \"Bogor\",\n    \"date_of_birth\": \"1995-08-15\",\n    \"address\": \"Jl. Sudirman No. 123, Jakarta Pusat\",\n    \"domicile\": \"Jakarta Selatan\",\n    \"phone_number\": \"081234567890\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/profiles/create",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												"create"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "184"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"b8-YdSFih9utwKEAcCSgT9M7PWdtD0\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:12:43 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": [\n            {\n                \"code\": \"invalid_type\",\n                \"expected\": \"string\",\n                \"received\": \"undefined\",\n                \"path\": [\n                    \"profession\"\n                ],\n                \"message\": \"Profesi wajib diisi\"\n            }\n        ],\n        \"error\": \"Bad Request\",\n        \"statusCode\": 400\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "UpdateProfile",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Jhon Cena\",\n    \"place_of_birth\": \"Bogor\",\n    \"date_of_birth\": \"1945-08-17\",\n    \"address\": \"Jl. Sinabung No. 123, Jakarta Pusat\",\n    \"domicile\": \"Jakarta Barat\",\n    \"phone_number\": \"086635615162\",\n    \"profession\": \"Data Analysis\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/profiles/update",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"profiles",
+										"update"
+									]
+								},
+								"description": "### Update Profile\n\nThis endpoint allows you to update a user's profile information.\n\n#### Request\n\nThe request body is optional and can include the following fields:\n\n- `name` (optional, string): The name of the user.\n    \n- `place_of_birth` (optional, string): The place of birth of the user.\n    \n- `date_of_birth` (optional, string): The date of birth of the user in the format YYYY-MM-DD.\n    \n- `address` (optional, string): The address of the user.\n    \n- `domicile` (optional, string): The domicile of the user.\n    \n- `phone_number` (optional, string): The phone number of the user.\n    \n- `profession` (optional, string): The profession of the user."
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Jhon Cena\",\n    \"place_of_birth\": \"Bogor\",\n    \"date_of_birth\": \"1945-08-17\",\n    \"address\": \"Jl. Sinabung No. 123, Jakarta Pusat\",\n    \"domicile\": \"Jakarta Barat\",\n    \"phone_number\": \"086635615162\",\n    \"profession\": \"Data Analysis\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/profiles/update",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												"update"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:13:58 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Jhon Cena\",\n    \"place_of_birth\": \"Bogor\",\n    \"date_of_birth\": \"1945-08-17\",\n    \"address\": \"Jl. Sinabung No. 123, Jakarta Pusat\",\n    \"domicile\": \"Jakarta Barat\",\n    \"phone_number\": \"086635615162\",\n    \"profession\": \"Data Analysis\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/profiles/update",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												"update"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "250"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"fa-o8SVQFnpeaU+HdiqRbOgSySyTYs\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:14:39 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"Jhon Cena\",\n        \"place_of_birth\": \"Bogor\",\n        \"date_of_birth\": \"1945-08-17T00:00:00.000Z\",\n        \"address\": \"Jl. Sinabung No. 123, Jakarta Pusat\",\n        \"domicile\": \"Jakarta Barat\",\n        \"phone_number\": \"086635615162\",\n        \"profession\": \"Data Analysis\",\n        \"user_id\": 2\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get All Profiles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/profiles/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"profiles",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/profiles/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												""
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:15:18 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/profiles/",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "495"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1ef-r/QROlMja4LrKR671vi3TQl9AWA\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:15:35 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 6,\n            \"name\": \"Jhon Cena\",\n            \"place_of_birth\": \"Bogor\",\n            \"date_of_birth\": \"1945-08-17T00:00:00.000Z\",\n            \"address\": \"Jl. Sinabung No. 123, Jakarta Pusat\",\n            \"domicile\": \"Jakarta Barat\",\n            \"phone_number\": \"086635615162\",\n            \"profession\": \"Data Analysis\",\n            \"user_id\": 12\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Jhon Cena\",\n            \"place_of_birth\": \"Bogor\",\n            \"date_of_birth\": \"1945-08-17T00:00:00.000Z\",\n            \"address\": \"Jl. Sinabung No. 123, Jakarta Pusat\",\n            \"domicile\": \"Jakarta Barat\",\n            \"phone_number\": \"086635615162\",\n            \"profession\": \"Data Analysis\",\n            \"user_id\": 2\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Current Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/profiles/current",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"profiles",
+										"current"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/profiles/current",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												"current"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:15:55 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/profiles/current",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"profiles",
+												"current"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "250"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"fa-o8SVQFnpeaU+HdiqRbOgSySyTYs\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 21:16:12 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"Jhon Cena\",\n        \"place_of_birth\": \"Bogor\",\n        \"date_of_birth\": \"1945-08-17T00:00:00.000Z\",\n        \"address\": \"Jl. Sinabung No. 123, Jakarta Pusat\",\n        \"domicile\": \"Jakarta Barat\",\n        \"phone_number\": \"086635615162\",\n        \"profession\": \"Data Analysis\",\n        \"user_id\": 2\n    }\n}"
+								}
+							]
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczMjY1NTQ3MCwiZXhwIjoxNzMyNzQxODcwfQ.tvCBr-w3J7C8conCSEteOJtRs2Er2RZ8oA-7LbuYCiE",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Master Data",
+			"item": [
+				{
+					"name": "Level",
+					"item": [
+						{
+							"name": "Add Level",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJpYXQiOjE3MzI2NTEzOTMsImV4cCI6MTczMjczNzc5M30.1TV4BXMvuKyBGgn6qnbb1njVcUgmFnnVQbWaWlHsK7o",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"At-Ta\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/levels",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"levels"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"At-Taqwa\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/levels",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"levels"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "35"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"23-ev4nj8F/ZEXPMcgfDB0ArZGSbzk\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:36:26 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"At-Taqwa\"\n    }\n}"
+								},
+								{
+									"name": "Error Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": 123\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/levels",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"levels"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "188"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"bc-YDao8zaSKJ7eAivNepVfT6ujjZs\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:37:25 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": [\n            {\n                \"code\": \"invalid_type\",\n                \"expected\": \"string\",\n                \"received\": \"number\",\n                \"path\": [\n                    \"name\"\n                ],\n                \"message\": \"Expected string, received number\"\n            }\n        ],\n        \"error\": \"Bad Request\",\n        \"statusCode\": 400\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Level",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"At-Tahqiq\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/levels/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"levels",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"At-Tahqiq\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/levels/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"levels",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "36"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"24-lV2PJXbMhO4KKRI9uOjTjquTBTQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:39:27 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"At-Tahqiq\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Level",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/levels/6",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"levels",
+										"6"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/levels/7",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"levels",
+												"7"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "13"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"d-5PmqOUOLyDrp2YvSxI+Jo0DoZSM\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:41:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"OK\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get All Level",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/levels",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"levels"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/levels",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"levels"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "164"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"a4-oQcenW/XEaMZ6LqeTRuWW7GdKBI\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 26 Nov 2024 20:41:58 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"At-Tahqiq\",\n            \"class\": []\n        },\n        {\n            \"id\": 3,\n            \"name\": \"At-Tartil\",\n            \"class\": []\n        },\n        {\n            \"id\": 4,\n            \"name\": \"At-Tadwir\",\n            \"class\": []\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Al-Hadr\",\n            \"class\": []\n        }\n    ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Component",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/components",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"components"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 29 Nov 2024 20:48:00 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "32"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"20-96yz2zLuAjkSFUS/Fpi1n3jOabw\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 08:52:50 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"UTS\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Add Component",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"UTS\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/components",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"components"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 29 Nov 2024 20:48:41 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Component already exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"UTS\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/components",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "85"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"55-tvtUZ+/ZlmRT5jISsoxo60bxE2c\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 08:57:58 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Component already exists\",\n        \"error\": \"Conflict\",\n        \"statusCode\": 409\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Component",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"UAS\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/components/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"components",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components",
+												"1"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 29 Nov 2024 20:49:54 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Component not found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"UAS\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/components/3",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components",
+												"3"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "50"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"32-9elTNCLNWNzOKgW3OXP+UxbAqsg\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:18:43 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Component not found\"\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"UAS\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/components/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "30"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1e-mMpAdUxMqozAdrQ2irLKHyMWWto\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:20:08 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"UAS\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Component",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/components/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"components",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components",
+												"1"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 29 Nov 2024 20:52:34 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Component not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components/2",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components",
+												"2"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "50"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"32-9elTNCLNWNzOKgW3OXP+UxbAqsg\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:26:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Component not found\"\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "13"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"d-5PmqOUOLyDrp2YvSxI+Jo0DoZSM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:28:13 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"OK\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Course Fee",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczNDAwNDk2MywiZXhwIjoxNzM0MDkxMzYzfQ.23NG_g_8S8M79wC6XC_UEpeVIj73IyVzXPNiybG7ysw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/course-fee",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"course-fee"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/course-fee",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"course-fee"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 10:57:30 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - 404 Not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/course-fee",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"course-fee"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "56",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"38-HpMHE38fw9Uy+JaXyYsphisI93E\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 12:10:38 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Could not find course fee\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Add",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczNDAwNDk2MywiZXhwIjoxNzM0MDkxMzYzfQ.23NG_g_8S8M79wC6XC_UEpeVIj73IyVzXPNiybG7ysw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fee\": 1000000,\n    \"class_id\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/course-fee",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"course-fee"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"fee\": 1000000,\n    \"class_id\": 2\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/course-fee",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"course-fee"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 10:58:29 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fee\": 4000000,\n    \"class_id\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/course-fee/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"course-fee",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"fee\": 4000000,\n    \"class_id\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/course-fee/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"course-fee",
+												"1"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 10:59:37 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/course-fee/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"course-fee",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/course-fee/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"course-fee",
+												"1"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 11:00:37 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								}
+							]
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczNDAwNDk2MywiZXhwIjoxNzM0MDkxMzYzfQ.23NG_g_8S8M79wC6XC_UEpeVIj73IyVzXPNiybG7ysw",
+								"type": "string"
+							}
+						]
+					}
+				},
+				{
+					"name": "Day",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/days",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"days"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/days",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 29 Nov 2024 20:48:00 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Days not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/days",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "45"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2d-qcbML2srgMLNI6P5l5SS3UuKgLQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:32:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Days not found\"\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/days",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "64"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"40-oZ1JSOmf0cK7l3NzQP4TooE4ccw\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:42:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Sunday\",\n            \"status\": true,\n            \"schedules\": []\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Sunday\",\n    \"status\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/days",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"days"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 29 Nov 2024 20:48:41 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Sunday\",\n    \"status\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/days",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "47"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2f-YJUAR41jb/6/gKDhrgWrUeqrKu4\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:40:34 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Sunday\",\n        \"status\": true\n    }\n}"
+								},
+								{
+									"name": "Day already exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Sunday\",\n    \"status\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/days",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "79"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4f-l7oJ2Er3CQV7vMtU7n5AiV8mWSM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:48:15 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Day already exists\",\n        \"error\": \"Conflict\",\n        \"statusCode\": 409\n    }\n}"
+								},
+								{
+									"name": "Failed - Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Sunday\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/days",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "170"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"aa-3DSjIoZRmkyRsuT4m+YGxXdvokg\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:48:59 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": [\n            {\n                \"code\": \"invalid_type\",\n                \"expected\": \"boolean\",\n                \"received\": \"undefined\",\n                \"path\": [\n                    \"status\"\n                ],\n                \"message\": \"Required\"\n            }\n        ],\n        \"error\": \"Bad Request\",\n        \"statusCode\": 400\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Monday\",\n    \"status\": \"false\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/days/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"days",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components",
+												"1"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 29 Nov 2024 20:49:54 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Monday\",\n    \"status\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/days/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "48"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"30-uw/QN9zrvI1bkZSUc+hhTUV01/w\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 09:50:28 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Monday\",\n        \"status\": false\n    }\n}"
+								},
+								{
+									"name": "Success - body string",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Monday\",\n    \"status\": \"false\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/days/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "48"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"30-uw/QN9zrvI1bkZSUc+hhTUV01/w\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:00:01 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Monday\",\n        \"status\": false\n    }\n}"
+								},
+								{
+									"name": "Failed - day not found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Monday\",\n    \"status\": \"false\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/days/5",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days",
+												"5"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "44"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2c-mDbG67W8v2LPMNp6cjNFBtkJcCM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:04:36 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Day not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/days/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"days",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/components/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"components",
+												"1"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 29 Nov 2024 20:52:34 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Day not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/days/3",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days",
+												"3"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "44"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2c-mDbG67W8v2LPMNp6cjNFBtkJcCM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:04:57 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Day not found\"\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/days/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"days",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "13"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"d-5PmqOUOLyDrp2YvSxI+Jo0DoZSM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:05:17 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"OK\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Event",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"events"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Failed - Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/events",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-tVwX9x7RrNChl6OBaxrl3imUsjQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:09:10 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Unauthorized\",\n        \"statusCode\": 401\n    }\n}"
+								},
+								{
+									"name": "Failed - Data not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/events",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "47"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2f-Uy0zQAuYL4rmT6pBCdtaM9meZdA\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:16:04 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Events not found\"\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/events",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "48"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"30-olil7PH1KUC7Bxx5sHWwOGwe9bM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:21:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"QUIS\",\n            \"calendars\": []\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"QUIS\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"events"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"QUIS\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/events",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-byceMeix1CBFOKCuX49ENBuy6Es\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:17:59 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"QUIS\"\n    }\n}"
+								},
+								{
+									"name": "Failed - Data already exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"QUIS\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/events",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "81"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"51-uue5lYNQ3foWa8RcOSkajKmuuag\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:20:13 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Event already exists\",\n        \"error\": \"Conflict\",\n        \"statusCode\": 409\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"QUIS Pra UTS\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/events/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"events",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"QUIS Pra UTS\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/events/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "39"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"27-za/OwpbMT0lFphtLjS5HyJJHal0\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:21:52 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"QUIS Pra UTS\"\n    }\n}"
+								},
+								{
+									"name": "Failed - Data not found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"QUIS Pra UTS\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/events/3",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events",
+												"3"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "46"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2e-gciGNCh9Kbh0LfY/+VGDEQIVxZE\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:24:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Event not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/events/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"events",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/events/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "13"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"d-5PmqOUOLyDrp2YvSxI+Jo0DoZSM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:25:28 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"OK\"\n}"
+								},
+								{
+									"name": "Failed - Data not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/events/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"events",
+												"1"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "46"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2e-gciGNCh9Kbh0LfY/+VGDEQIVxZE\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:25:42 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Event not found\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Time",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/times",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"times"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/times",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "63"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3f-NiLl3gm4Sm46NxLZU0KQEoMbJss\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:48:30 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"time\": \"07:00\",\n            \"status\": true,\n            \"schedules\": []\n        }\n    ]\n}"
+								},
+								{
+									"name": "Failed - Data not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/times",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "45"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2d-6QSgfi85kgxhYEiW04U0DOEUr7c\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:32:12 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Time not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"time\": \"07:00\",\n    \"status\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/times",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"times"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"time\": \"07:00\",\n    \"status\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/times",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "46"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2e-uRxMmAF98ucp2gAgHLlb4tXsKCg\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:47:54 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"time\": \"07:00\",\n        \"status\": true\n    }\n}"
+								},
+								{
+									"name": "Failed - Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"time\": \"07.00\",\n    \"status\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/times",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "163"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"a3-X4ztGVGCQa4dSoUJNgt50iggcWI\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:37:41 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": [\n            {\n                \"validation\": \"regex\",\n                \"code\": \"invalid_string\",\n                \"message\": \"Format waktu harus HH:mm\",\n                \"path\": [\n                    \"time\"\n                ]\n            }\n        ],\n        \"error\": \"Bad Request\",\n        \"statusCode\": 400\n    }\n}"
+								},
+								{
+									"name": "Failed - Data already exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"time\": \"07:00\",\n    \"status\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/times",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "80"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"50-o3Mkxxvy9OXvhevVPwSQPncDrSE\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:48:53 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errors\": {\n        \"message\": \"Time already exists\",\n        \"error\": \"Conflict\",\n        \"statusCode\": 409\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"time\": \"07:10\",\n    \"status\": \"false\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/times/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"times",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"time\": \"07:10\",\n    \"status\": \"false\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/times/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "47"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2f-XKIWpOkuiRxdX88AQsUKuKfo28w\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:52:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"time\": \"07:10\",\n        \"status\": false\n    }\n}"
+								},
+								{
+									"name": "Failed - data not found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"time\": \"07:10\",\n    \"status\": \"false\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/times/2",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times",
+												"2"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "45"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2d-6QSgfi85kgxhYEiW04U0DOEUr7c\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:53:14 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Time not found\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/times/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"times",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/times/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "13"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"d-5PmqOUOLyDrp2YvSxI+Jo0DoZSM\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:54:01 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"OK\"\n}"
+								},
+								{
+									"name": "Failed - Data not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/times/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"times",
+												"1"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "45"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2d-6QSgfi85kgxhYEiW04U0DOEUr7c\""
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Nov 2024 10:54:22 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Time not found\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Bank Account",
+					"item": [
+						{
+							"name": "GetAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/bank-accounts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"bank-accounts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/bank-accounts",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"bank-accounts"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "87",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"57-4KoumZYql1P3n4SYKOYI5fn4R9c\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 13:41:06 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"account_name\": \"eminem\",\n            \"account_number\": 12345678,\n            \"bank_name\": \"BNI\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountName\": \"eminem\",\n    \"accountNumber\": 12345678,\n    \"bankName\": \"BNI\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/bank-accounts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"bank-accounts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountName\": \"eminem\",\n    \"accountNumber\": 12345678,\n    \"bankName\": \"BNI\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/bank-accounts",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"bank-accounts"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "85",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"55-mhwbFUwcFTLm84511OB46AILfbc\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 13:00:07 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"account_name\": \"eminem\",\n        \"account_number\": 12345678,\n        \"bank_name\": \"BNI\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accountName\": \"hailey\",\n    \"accountNumber\": 1234321,\n    \"bankName\": \"BTN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/bank-accounts/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"bank-accounts",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountName\": \"eminem\",\n    \"accountNumber\": 12345678,\n    \"bankName\": \"BNI\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/bank-accounts",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"bank-accounts"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "85",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"55-mhwbFUwcFTLm84511OB46AILfbc\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 13:00:07 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"account_name\": \"eminem\",\n        \"account_number\": 12345678,\n        \"bank_name\": \"BNI\"\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountName\": \"hailey\",\n    \"accountNumber\": 1234321,\n    \"bankName\": \"BTN\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/bank-accounts/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"bank-accounts",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "84",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"54-3RxKkyXuwrQOrDZ4IQGd29HafjA\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 13:42:16 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"account_name\": \"hailey\",\n        \"account_number\": 1234321,\n        \"bank_name\": \"BTN\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/bank-accounts/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"bank-accounts",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountName\": \"eminem\",\n    \"accountNumber\": 12345678,\n    \"bankName\": \"BNI\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/bank-accounts",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"bank-accounts"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "85",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"55-mhwbFUwcFTLm84511OB46AILfbc\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 13:00:07 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"account_name\": \"eminem\",\n        \"account_number\": 12345678,\n        \"bank_name\": \"BNI\"\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"accountName\": \"hailey\",\n    \"accountNumber\": 1234321,\n    \"bankName\": \"BTN\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/bank-accounts/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"bank-accounts",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "84",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"54-3RxKkyXuwrQOrDZ4IQGd29HafjA\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 13:42:16 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"account_name\": \"hailey\",\n        \"account_number\": 1234321,\n        \"bank_name\": \"BTN\"\n    }\n}"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/bank-accounts/1",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"bank-accounts",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "JSON",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express",
+											"type": "text"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "13",
+											"type": "text"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"d-5PmqOUOLyDrp2YvSxI+Jo0DoZSM\"",
+											"type": "text"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Dec 2024 13:43:14 GMT",
+											"type": "text"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive",
+											"type": "text"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"OK\"\n}"
+								}
+							]
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczNDAwNDk2MywiZXhwIjoxNzM0MDkxMzYzfQ.23NG_g_8S8M79wC6XC_UEpeVIj73IyVzXPNiybG7ysw",
+								"type": "string"
+							}
+						]
+					}
+				}
+			],
+			"description": "Only **admin** can access this feature.",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTczNDAwNDk2MywiZXhwIjoxNzM0MDkxMzYzfQ.23NG_g_8S8M79wC6XC_UEpeVIj73IyVzXPNiybG7ysw",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000/api"
+		},
+		{
+			"key": "fallback_url",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		}
+	]
+}
