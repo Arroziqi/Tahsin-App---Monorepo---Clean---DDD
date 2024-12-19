@@ -45,7 +45,7 @@ export class AuthController {
   @Public()
   @Get('/hello')
   async getHello() {
-    return 'Hello';
+    return 'Helloasas ozi';
   }
 
   @Public()

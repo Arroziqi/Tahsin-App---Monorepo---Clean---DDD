@@ -4,7 +4,6 @@ ARG NODE_VERSION=22.11.0
 
 FROM node:${NODE_VERSION}-alpine
 
-# Use production node environment by default.
 ENV NODE_ENV production
 
 WORKDIR /usr/src/app
@@ -15,19 +14,21 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
 
-# Atur izin untuk folder node_modules
 RUN chown -R node:node /usr/src/app/node_modules
 
-# Copy seluruh source code
 COPY --chown=node:node . .
 
-# Run sebagai non-root user
+# Set variabel lingkungan secara langsung di Dockerfile
+ENV DATABASE_URL=postgresql://postgres:root@db:5432/tahsin?schema=public
+ENV JWT_SECRET=EVJcJtqzG2yLjgScB8bAM8iXLv54epqFurg9PFusS+M=
+ENV REFRESH_JWT_SECRET=qjh8o9dKxBb71VI83wJXmkfLpaIgcvfRNfjgEIEanZU=
+
+# Run prisma migrate and seed during build, only once
+RUN npx prisma migrate deploy --schema /usr/src/app/apps/api/prisma/schema.prisma && \
+    npx tsx /usr/src/app/apps/api/prisma/seed.ts
+
 USER node
 
-# Expose port
 EXPOSE 5000
 
-# Perintah default
-CMD npx prisma migrate dev --name init && \
-    npx tsx prisma/seed.ts && \
-    npm run dev
+CMD npm run dev
