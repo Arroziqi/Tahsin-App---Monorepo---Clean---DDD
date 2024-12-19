@@ -7,10 +7,8 @@ services:
     container_name: db-prisma
     ports:
       - '5433:5432'
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: tahsin
+    env_file:
+      - apps/api/.env
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
@@ -25,14 +23,8 @@ services:
       dockerfile: apps/api/Dockerfile
     #    restart: always
     container_name: server-api
-    environment:
-      PORT: 5000
-      NODE_ENV: development
-      DATABASE_URL: "postgresql://postgres:root@db:5432/tahsin?schema=public"
-      JWT_SECRET: EVJcJtqzG2yLjgScB8bAM8iXLv54epqFurg9PFusS+M=
-      JWT_EXPIRES_IN: 1d
-      REFRESH_JWT_SECRET: qjh8o9dKxBb71VI83wJXmkfLpaIgcvfRNfjgEIEanZU=
-      REFRESH_JWT_EXPIRES_IN: 7d
+    env_file:
+      - apps/api/.env
     ports:
       - "5000:5000"
       - "5555:5555"

@@ -14,7 +14,6 @@ import { AuthJwtPayload } from '../types/auth.jwtPayload';
 import { UserModel } from '../data/models/user.model';
 import refreshConfig from '../config/refresh.config';
 import { ConfigType } from '@nestjs/config';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -76,7 +75,8 @@ export class AuthService {
       const { accessToken, refreshToken } = await this.generateTokens(user.id);
 
       this.logger.debug('Hashing refresh token');
-      const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+      const hashedRefreshToken =
+        await this.passwordService.hashedPassword(refreshToken);
 
       this.logger.debug(
         `Updating hashed refresh token for user ID: ${user.id}`,
@@ -145,7 +145,7 @@ export class AuthService {
       throw new UnauthorizedException('User not found!');
     }
 
-    const isRefreshTokenValid = await bcrypt.compare(
+    const isRefreshTokenValid = await this.passwordService.comparePassword(
       refreshToken,
       user.data.hashedRefreshToken,
     );
@@ -169,7 +169,8 @@ export class AuthService {
       const { accessToken, refreshToken } = await this.generateTokens(user.id);
 
       this.logger.debug('Hashing refresh token');
-      const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+      const hashedRefreshToken =
+        await this.passwordService.hashedPassword(refreshToken);
 
       this.logger.debug(
         `Updating hashed refresh token for user ID: ${user.id}`,

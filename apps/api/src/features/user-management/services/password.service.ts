@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class PasswordService {
@@ -8,7 +8,7 @@ export class PasswordService {
   async hashedPassword(password: string): Promise<string> {
     this.logger.debug('Hashing password');
     try {
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await argon2.hash(password);
       this.logger.debug('Password hashed successfully');
       return hashedPassword;
     } catch (error) {
@@ -23,7 +23,7 @@ export class PasswordService {
   ): Promise<boolean> {
     this.logger.debug('Comparing passwords');
     try {
-      const isMatch = await bcrypt.compare(password, hashedPassword);
+      const isMatch = await argon2.verify(hashedPassword, password);
       this.logger.debug(`Password comparison result: ${isMatch}`);
       return isMatch;
     } catch (error) {
