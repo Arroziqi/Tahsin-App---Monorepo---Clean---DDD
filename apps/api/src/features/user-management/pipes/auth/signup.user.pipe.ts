@@ -5,10 +5,10 @@ import {
   Logger,
   PipeTransform,
 } from '@nestjs/common';
-import { SignupUserSchema } from '../presentation/dto/signup.dto';
-import { UserModel } from '../data/models/user.model';
-import { AuthService } from '../services/auth.service';
-import { PasswordService } from '../services/password.service';
+import { SignupUserSchema } from '../../presentation/dto/auth/signup.dto';
+import { UserModel } from '../../data/models/user.model';
+import { AuthService } from '../../services/auth.service';
+import { PasswordService } from '../../services/password.service';
 
 @Injectable()
 export class SignupUserPipe implements PipeTransform {

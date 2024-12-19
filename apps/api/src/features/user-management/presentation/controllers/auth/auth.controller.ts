@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { DataState } from 'src/core/resources/data.state';
 import { UserModel } from '../../../data/models/user.model';
-import { SignupUserPipe } from '../../../pipes/signup.user.pipe';
+import { SignupUserPipe } from '../../../pipes/auth/signup.user.pipe';
 import { UserInterceptor } from '../../../interceptors/user.interceptor';
 import { SignupUsecase } from '../../../domain/usecases/auth/signup.usecase';
 import { LocalAuthGuard } from '../../../guards/local-auth/local.auth.guard';
@@ -27,6 +27,11 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from '../../../guards/roles/roles.guard';
 import { UpdateUsecase } from '../../../domain/usecases/auth/update.usecase';
 import { DeleteUsecase } from '../../../domain/usecases/auth/delete.usecase';
+import { UpdateUserRolePipe } from 'src/features/user-management/pipes/auth/update-user-role.pipe';
+import { UpdateUserRoleUsecase } from 'src/features/user-management/domain/usecases/auth/update-role.usecase';
+import { AddUsersPipe } from 'src/features/user-management/pipes/auth/add-users.pipe';
+import { AddUsersUsecase } from 'src/features/user-management/domain/usecases/auth/add-users.usecase';
+import { UserEntity } from 'src/features/user-management/domain/entities/user.entity';
 
 @Controller('/api/users')
 @UseInterceptors(UserInterceptor)
@@ -38,6 +43,8 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly updateUsecase: UpdateUsecase,
     private readonly deleteUsecase: DeleteUsecase,
+    private readonly updateRoleUsecase: UpdateUserRoleUsecase,
+    private readonly addUsersUsecase: AddUsersUsecase,
   ) {
     this.logger.log('AuthController initialized');
   }
@@ -63,6 +70,35 @@ export class AuthController {
       return result;
     } catch (error) {
       this.logger.error('Signup failed', {
+        error: error.message,
+      });
+
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: error.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Post('/add-users')
+  @Roles(['Admin'])
+  @UseGuards(RolesGuard)
+  async addUsers(
+    @Body(AddUsersPipe) request: UserEntity[],
+  ): Promise<DataState<UserEntity[]>> {
+    try {
+      this.logger.debug(`Processing add users`);
+
+      const result = await this.addUsersUsecase.execute(request);
+
+      this.logger.debug('add users completed successfully');
+
+      return result;
+    } catch (error) {
+      this.logger.error('add users failed', {
         error: error.message,
       });
 
@@ -151,11 +187,20 @@ export class AuthController {
   @Roles(['Admin'])
   @UseGuards(RolesGuard)
   async updateUser(
-    @Request() req,
     @Param('id', ParseIntPipe) id: number,
     @Body() user: UserModel,
   ) {
     return this.updateUsecase.execute({ ...user, id });
+  }
+
+  @Put('/update-role/:id')
+  @Roles(['Admin'])
+  @UseGuards(RolesGuard)
+  async updateUserRole(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(UpdateUserRolePipe) user: UserModel,
+  ) {
+    return this.updateRoleUsecase.execute({ ...user, id });
   }
 
   @Put('/update')

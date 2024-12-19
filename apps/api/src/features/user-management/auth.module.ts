@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import {
   PROFILE_REPO_TOKEN,
   ROLE_REPO_TOKEN,
@@ -32,7 +32,8 @@ import { GetAllProfileUsecase } from './domain/usecases/profile/get.all.usecase'
 import { GetProfileUsecase } from './domain/usecases/profile/get.usecase';
 import { CreateProfileUsecase } from './domain/usecases/profile/create.usecase';
 import { UpdateProfileUsecase } from './domain/usecases/profile/update.usecase';
-import { Logger } from '@nestjs/common';
+import { UpdateUserRoleUsecase } from 'src/features/user-management/domain/usecases/auth/update-role.usecase';
+import { AddUsersUsecase } from 'src/features/user-management/domain/usecases/auth/add-users.usecase';
 
 @Module({
   imports: [
@@ -44,7 +45,9 @@ import { Logger } from '@nestjs/common';
   providers: [
     SignupUsecase,
     UpdateUsecase,
+    UpdateUserRoleUsecase,
     DeleteUsecase,
+    AddUsersUsecase,
     CreateRoleUsecase,
     GetAllRoleUsecase,
     UpdateRoleUsecase,

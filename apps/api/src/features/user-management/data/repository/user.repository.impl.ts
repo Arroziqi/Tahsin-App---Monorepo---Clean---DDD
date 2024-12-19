@@ -17,6 +17,10 @@ export abstract class UserRepositoryImpl implements UserRepository {
     return await this.userRepository.findByEmail(email, includeRole);
   }
 
+  async findByEmails(emails: string[]): Promise<DataState<UserEntity[]>> {
+    return await this.userRepository.findByEmails(emails);
+  }
+
   async findById(
     id: number,
     includeRole?: boolean,
@@ -28,6 +32,10 @@ export abstract class UserRepositoryImpl implements UserRepository {
     return await this.userRepository.create(user);
   }
 
+  createMany(users: UserEntity[]): Promise<DataState<UserEntity[]>> {
+    return this.userRepository.createMany(users);
+  }
+
   async updateHashedRefreshToken(
     userId: number,
     hashedRefreshToken: string | null,
@@ -36,6 +44,13 @@ export abstract class UserRepositoryImpl implements UserRepository {
       userId,
       hashedRefreshToken,
     );
+  }
+
+  async updateRole(
+    userId: number,
+    role_id: number,
+  ): Promise<DataState<UserEntity>> {
+    return await this.userRepository.updateRole(userId, role_id);
   }
 
   async update(user: UserEntity): Promise<DataState<UserEntity>> {

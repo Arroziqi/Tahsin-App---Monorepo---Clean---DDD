@@ -1,7 +1,8 @@
-import { DataState } from 'src/core/resources/data.state';
+import { DataState, DataSuccess } from 'src/core/resources/data.state';
 import { UserModel } from '../../models/user.model';
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/services/prisma.service';
+import { UserEntity } from 'src/features/user-management/domain/entities/user.entity';
 
 export interface PrismaDataSources {
   findByEmail(
@@ -9,14 +10,20 @@ export interface PrismaDataSources {
     includeRole?: boolean,
   ): Promise<DataState<UserModel>>;
 
+  findByEmails(emails: string[]): Promise<DataState<UserModel[]>>;
+
   findById(id: number, includeRole?: boolean): Promise<DataState<UserModel>>;
 
   create(user: UserModel): Promise<DataState<UserModel>>;
+
+  createMany(users: UserEntity[]): Promise<DataState<UserEntity[]>>;
 
   updateHashedRefreshToken(
     userId: number,
     hashedRefreshToken: string | null,
   ): Promise<DataState<string>>;
+
+  updateRole(userId: number, role_id: number): Promise<DataState<UserModel>>;
 
   update(user: UserModel): Promise<DataState<UserModel>>;
 
@@ -53,6 +60,29 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
         }),
         error: undefined,
       };
+    } catch (error) {
+      this.logger.error('Error finding user by email', {
+        error: error.message,
+      });
+      throw error;
+    }
+  }
+
+  async findByEmails(emails: string[]): Promise<DataState<UserEntity[]>> {
+    try {
+      this.logger.debug(`Finding user by emails`);
+      const users = await this.prismaService.user.findMany({
+        where: { email: { in: emails } },
+        include: { role: true },
+      });
+
+      if (!users) {
+        this.logger.debug(`No user found with email`);
+        return { data: null, error: undefined };
+      }
+
+      this.logger.debug('User found successfully');
+      return new DataSuccess(users.map((user) => new UserModel(user)));
     } catch (error) {
       this.logger.error('Error finding user by email', {
         error: error.message,
@@ -124,6 +154,41 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
     }
   }
 
+  async createMany(users: UserModel[]): Promise<DataState<UserModel[]>> {
+    try {
+      this.logger.debug(`Creating ${users.length} new users`);
+
+      const data = await this.prismaService.user.createManyAndReturn({
+        data: users.map((user) => ({
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          role_id: user.role_id,
+        })),
+        skipDuplicates: true, // Optional: Prevents duplicate errors if needed
+      });
+
+      this.logger.debug(`${data.length} users created successfully`);
+
+      return {
+        data: data.map((user) => ({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          role_id: user.role_id,
+          hashedRefreshToken: user.hashedRefreshToken,
+        })),
+        error: undefined,
+      };
+    } catch (error) {
+      this.logger.error('Error creating users', {
+        error: error.message,
+      });
+      throw error;
+    }
+  }
+
   async updateHashedRefreshToken(
     userId: number,
     hashedRefreshToken: string | null,
@@ -145,6 +210,29 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
       };
     } catch (error) {
       this.logger.error('Error updating hashed refresh token', {
+        error: error.message,
+      });
+      throw error;
+    }
+  }
+
+  async updateRole(
+    userId: number,
+    role_id: number,
+  ): Promise<DataState<UserModel>> {
+    try {
+      this.logger.debug(`Updating role`);
+
+      const data = await this.prismaService.user.update({
+        where: { id: userId },
+        data: {
+          role_id,
+        },
+      });
+
+      return new DataSuccess(new UserModel(data));
+    } catch (error) {
+      this.logger.error('Error updating role', {
         error: error.message,
       });
       throw error;

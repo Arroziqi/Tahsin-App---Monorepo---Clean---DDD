@@ -7,14 +7,20 @@ export interface UserRepository {
     includeRole?: boolean,
   ): Promise<DataState<UserEntity>>;
 
+  findByEmails(emails: string[]): Promise<DataState<UserEntity[]>>;
+
   findById(id: number, includeRole?: boolean): Promise<DataState<UserEntity>>;
 
   create(user: UserEntity): Promise<DataState<UserEntity>>;
+
+  createMany(users: UserEntity[]): Promise<DataState<UserEntity[]>>;
 
   updateHashedRefreshToken(
     userId: number,
     hashedRefreshToken: string | null,
   ): Promise<DataState<string>>;
+
+  updateRole(userId: number, role_id: number): Promise<DataState<UserEntity>>;
 
   update(user: UserEntity): Promise<DataState<UserEntity>>;
 
