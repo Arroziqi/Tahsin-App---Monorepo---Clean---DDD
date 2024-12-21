@@ -1,5 +1,6 @@
 import { DataState } from 'src/core/resources/data.state';
 import { DayEntity } from 'src/features/master-data/domain/entities/day.entity';
+import { DaysEnum } from 'src/core/types/enum/days.enum';
 
 export interface DayRepository {
   findAll(includeSchedule?: boolean): Promise<DataState<DayEntity[]>>;
@@ -10,7 +11,7 @@ export interface DayRepository {
   ): Promise<DataState<DayEntity>>;
 
   findByName(
-    name: string,
+    name: DaysEnum,
     includeSchedule?: boolean,
   ): Promise<DataState<DayEntity>>;
 

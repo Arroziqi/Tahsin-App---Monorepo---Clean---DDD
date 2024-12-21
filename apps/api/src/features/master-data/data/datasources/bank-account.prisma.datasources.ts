@@ -129,6 +129,7 @@ export class BankAccountPrismaDatasourcesImpl
           account_name: bankAccount.accountName,
           account_number: bankAccount.accountNumber,
           bank_name: bankAccount.bankName,
+          is_active: bankAccount.is_active,
         },
       });
 

@@ -8,7 +8,6 @@ import { PrismaDataSourcesImpl } from './data/datasources/local/prisma.datasourc
 import { RolePrismaDataSourcesImpl } from './data/datasources/local/role.prisma.datasources';
 import { AuthController } from './presentation/controllers/auth/auth.controller';
 import { AuthService } from './services/auth.service';
-import { PrismaService } from 'src/common/services/prisma.service';
 import { CreateRoleUsecase } from './domain/usecases/role/create.usecase';
 import { RoleController } from './presentation/controllers/role/role.controller';
 import { GetAllRoleUsecase } from './domain/usecases/role/get.all.usecase';
@@ -59,7 +58,6 @@ import { AddUsersUsecase } from 'src/features/user-management/domain/usecases/au
     AuthService,
     PasswordService,
     DataService,
-    PrismaService,
     LocalStrategy,
     JwtStrategy,
     RefreshTokenStrategy,

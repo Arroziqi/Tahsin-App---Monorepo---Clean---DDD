@@ -1,8 +1,26 @@
 import { z } from 'zod';
+import { SessionNameEnum } from 'src/core/types/enum/session-name.enum';
 
 export const UpdateTimeSchema = z.object({
-  time: z.string().min(3, 'Nama minimal 3 karakter').optional(),
-  status: z
+  start_time: z
+    .string({
+      required_error: 'Waktu harus diisi',
+      invalid_type_error: 'Waktu harus berupa string',
+    })
+    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Format waktu harus HH:mm')
+    .optional(),
+
+  end_time: z
+    .string({
+      required_error: 'Waktu harus diisi',
+      invalid_type_error: 'Waktu harus berupa string',
+    })
+    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Format waktu harus HH:mm')
+    .optional(),
+
+  session_name: z.nativeEnum(SessionNameEnum).optional(),
+
+  is_active: z
     .union([z.boolean(), z.string()])
     .refine((value) => {
       if (typeof value === 'string') {
@@ -16,6 +34,8 @@ export const UpdateTimeSchema = z.object({
       }
       return value;
     })
+    .default(true)
+    .describe('Status harus diisi')
     .optional(),
 });
 

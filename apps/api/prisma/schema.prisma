@@ -31,6 +31,23 @@ enum PaymentStatus {
   INSTALLMENT
 }
 
+enum Days {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+enum SessionName {
+  SESSION_1
+  MORNING_SESSION
+  AFTERNOON_SESSION
+  EVENING_SESSION
+}
+
 model Profile {
   id             Int      @id @default(autoincrement())
   name           String   @db.VarChar(255)
@@ -99,8 +116,9 @@ model Calendar {
 }
 
 model Event {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(255)
+  id        Int     @id @default(autoincrement())
+  name      String  @unique @db.VarChar(255)
+  is_active Boolean @default(true)
 
   calendars Calendar[]
 }
@@ -120,8 +138,9 @@ model Class {
 }
 
 model Level {
-  id   Int    @id @default(autoincrement())
-  name String @unique(map: "levels_name_unique") @db.VarChar(255)
+  id        Int     @id @default(autoincrement())
+  name      String  @unique(map: "levels_name_unique") @db.VarChar(255)
+  is_active Boolean @default(true)
 
   classes Class[]
 }
@@ -183,26 +202,31 @@ model Schedule {
 }
 
 model Time {
-  id     Int     @id @default(autoincrement())
-  time   String  @unique(map: "time_name_unique") @db.VarChar(20)
-  status Boolean
+  id           Int         @id @default(autoincrement())
+  start_time   Int
+  end_time     Int
+  session_name SessionName
+  is_active    Boolean     @default(true)
 
   schedules Schedule[]
+
+  @@unique([start_time, end_time])
 }
 
 model Day {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique @db.VarChar(20)
-  status Boolean
+  id        Int     @id @default(autoincrement())
+  name      Days    @unique
+  is_active Boolean @default(true)
 
   schedules Schedule[]
 }
 
 model BankAccounts {
-  id             Int    @id @default(autoincrement())
-  account_name   String @unique @db.VarChar(255)
-  account_number Int    @unique
-  bank_name      String @db.VarChar(100)
+  id             Int     @id @default(autoincrement())
+  account_name   String  @unique @db.VarChar(255)
+  account_number Int     @unique
+  bank_name      String  @db.VarChar(100)
+  is_active      Boolean @default(true)
 }
 
 model CourseFee {

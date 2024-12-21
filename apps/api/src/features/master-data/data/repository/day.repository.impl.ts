@@ -3,6 +3,7 @@ import { DayRepository } from '../../domain/repository/day.repository';
 import { DataState } from 'src/core/resources/data.state';
 import { DayEntity } from '../../domain/entities/day.entity';
 import { DAY_REPO_TOKEN } from 'src/core/const/provider.token';
+import { DaysEnum } from 'src/core/types/enum/days.enum';
 
 @Injectable()
 export class DayRepositoryImpl implements DayRepository {
@@ -18,7 +19,7 @@ export class DayRepositoryImpl implements DayRepository {
   }
 
   async findByName(
-    name: string,
+    name: DaysEnum,
     includeSchedule?: boolean,
   ): Promise<DataState<DayEntity>> {
     return await this.dayRepository.findByName(name, includeSchedule);

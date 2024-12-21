@@ -1,8 +1,9 @@
 import { z } from 'zod';
+import { DaysEnum } from 'src/core/types/enum/days.enum';
 
 export const UpdateDaySchema = z.object({
-  name: z.string().min(3, 'Nama minimal 3 karakter').optional(),
-  status: z
+  name: z.nativeEnum(DaysEnum).optional(),
+  is_active: z
     .union([
       z.boolean(),
       z.string().transform((val) => {

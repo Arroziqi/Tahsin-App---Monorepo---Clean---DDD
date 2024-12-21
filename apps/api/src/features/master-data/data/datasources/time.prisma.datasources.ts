@@ -7,15 +7,29 @@ import { TimeModel } from 'src/features/master-data/data/models/time.model';
 import { Injectable, Logger } from '@nestjs/common';
 import { ErrorEntity } from 'src/core/domain/entities/error.entity';
 import { PrismaService } from 'src/common/services/prisma.service';
+import {
+  SessionNameEnum,
+  toSessionNameEnum,
+} from 'src/core/types/enum/session-name.enum';
 
 export interface TimePrismaDatasources {
+  findOverlappingTime(
+    time: TimeModel,
+    includeSchedule?: boolean,
+  ): Promise<DataState<TimeModel>>;
+
+  findByStartTime(
+    start_time: number,
+    includeSchedule?: boolean,
+  ): Promise<DataState<TimeModel>>;
+
   findById(
     id: number,
     includeSchedule?: boolean,
   ): Promise<DataState<TimeModel>>;
 
-  findByName(
-    name: string,
+  findBySessionName(
+    session_name: SessionNameEnum,
     includeSchedule?: boolean,
   ): Promise<DataState<TimeModel>>;
 
@@ -33,6 +47,91 @@ export class TimePrismaDataSourcesImpl implements TimePrismaDatasources {
   private readonly logger: Logger = new Logger(TimePrismaDataSourcesImpl.name);
 
   constructor(private readonly prismaService: PrismaService) {}
+
+  async findOverlappingTime(
+    time: TimeModel,
+    includeSchedule?: boolean,
+  ): Promise<DataState<TimeModel>> {
+    try {
+      this.logger.log(
+        `Finding overlapping time with start_time: ${time.start_time}`,
+      );
+      const data = await this.prismaService.time.findFirst({
+        where: {
+          OR: [
+            {
+              AND: [
+                { start_time: { lte: time.start_time } },
+                { end_time: { gte: time.start_time } },
+              ],
+            },
+            {
+              AND: [
+                { start_time: { lte: time.end_time } },
+                { end_time: { gte: time.end_time } },
+              ],
+            },
+            {
+              AND: [
+                { start_time: { gte: time.start_time } },
+                { end_time: { lte: time.end_time } },
+              ],
+            },
+          ],
+        },
+        include: { schedules: includeSchedule },
+      });
+
+      if (!data) {
+        this.logger.log(`no overlapping time`);
+        return new DataSuccess(null);
+      }
+
+      this.logger.log(`Successfully find overlapping time `);
+      return new DataSuccess(
+        new TimeModel({
+          ...data,
+          session_name: toSessionNameEnum(data.session_name),
+        }),
+      );
+    } catch (error) {
+      this.logger.error(`Error finding overlapping time`);
+      throw new ErrorEntity(error.statusCode, error.message);
+    }
+  }
+
+  async findByStartTime(
+    start_time: number,
+    includeSchedule?: boolean,
+  ): Promise<DataState<TimeModel>> {
+    try {
+      this.logger.log(`Finding time with start_time: ${start_time}`);
+      const data = await this.prismaService.time.findFirst({
+        where: { start_time },
+        include: {
+          schedules: includeSchedule,
+        },
+      });
+
+      if (!data) {
+        this.logger.warn(`Time with start_time: ${start_time} not found`);
+        throw new ErrorEntity(404, 'Time not found');
+      }
+
+      this.logger.log(`Successfully find time with start_time: ${start_time}`);
+      return new DataSuccess(
+        new TimeModel({
+          ...data,
+          session_name: toSessionNameEnum(data.session_name),
+        }),
+      );
+    } catch (error) {
+      this.logger.error(
+        `Error finding time with start_time ${start_time}: ${error.message}`,
+      );
+      throw new ErrorEntity(error.statusCode, error.message);
+    }
+  }
 
   async findById(
     id: number,
@@ -53,33 +152,45 @@ export class TimePrismaDataSourcesImpl implements TimePrismaDatasources {
       }
 
       this.logger.log(`Successfully find time with id: ${id}`);
-      return new DataSuccess(new TimeModel(data));
+      return new DataSuccess(
+        new TimeModel({
+          ...data,
+          session_name: toSessionNameEnum(data.session_name),
+        }),
+      );
     } catch (error) {
       this.logger.error(`Error finding time with id ${id}: ${error.message}`);
       throw new ErrorEntity(error.statusCode, error.message);
     }
   }
 
-  async findByName(
-    name: string,
+  async findBySessionName(
+    session_name: SessionNameEnum,
     includeSchedule?: boolean,
   ): Promise<DataState<TimeModel>> {
     try {
-      this.logger.log(`Finding time with name: ${name}`);
+      this.logger.log(`Finding time with session_name: ${session_name}`);
       const data = await this.prismaService.time.findFirst({
-        where: { time: name },
+        where: { session_name },
         include: {
           schedules: includeSchedule,
         },
       });
 
       if (!data) {
-        this.logger.warn(`Time with name: ${name} not found`);
+        this.logger.warn(`Time with session_name: ${session_name} not found`);
         return new DataFailed(new ErrorEntity(404, 'Time not found'));
       }
 
-      this.logger.log(`Successfully found time with name: ${name}`);
-      return new DataSuccess(new TimeModel(data));
+      this.logger.log(
+        `Successfully found time with session_name: ${session_name}`,
+      );
+      return new DataSuccess(
+        new TimeModel({
+          ...data,
+          session_name: toSessionNameEnum(data.session_name),
+        }),
+      );
     } catch (error) {
       this.logger.error(`Error finding time with name: ${name}`);
       throw new ErrorEntity(error.statusCode, error.message);
@@ -104,7 +215,15 @@ export class TimePrismaDataSourcesImpl implements TimePrismaDatasources {
       }
 
       this.logger.log(`Successfully found all times`);
-      return new DataSuccess(data.map((time) => new TimeModel(time)));
+      return new DataSuccess(
+        data.map(
+          (time) =>
+            new TimeModel({
+              ...time,
+              session_name: toSessionNameEnum(time.session_name),
+            }),
+        ),
+      );
     } catch (error) {
       this.logger.error(`Error finding all times: ${error.message}`);
       throw new ErrorEntity(error.statusCode, error.message);
@@ -119,7 +238,12 @@ export class TimePrismaDataSourcesImpl implements TimePrismaDatasources {
       });
 
       this.logger.log(`Successfully created time`);
-      return new DataSuccess(new TimeModel(data));
+      return new DataSuccess(
+        new TimeModel({
+          ...data,
+          session_name: toSessionNameEnum(data.session_name),
+        }),
+      );
     } catch (e) {
       this.logger.error(`Error creating time: ${e}`);
       throw new ErrorEntity(500, e.message);
@@ -135,7 +259,12 @@ export class TimePrismaDataSourcesImpl implements TimePrismaDatasources {
       });
 
       this.logger.log(`Successfully updated time with id: ${time.id}`);
-      return new DataSuccess(new TimeModel(data));
+      return new DataSuccess(
+        new TimeModel({
+          ...data,
+          session_name: toSessionNameEnum(data.session_name),
+        }),
+      );
     } catch (e) {
       this.logger.error(`Error updating time with id: ${time.id}`);
       throw new ErrorEntity(500, e.message);

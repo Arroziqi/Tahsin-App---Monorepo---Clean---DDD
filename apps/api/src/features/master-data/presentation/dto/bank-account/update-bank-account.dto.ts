@@ -6,6 +6,7 @@ export const UpdateBankAccountSchema = z.object({
     .number({ message: 'account number harus berupa angka' })
     .optional(),
   bankName: z.string().optional(),
+  is_active: z.boolean().optional(),
 });
 
 export type UpdateBankAccountDto = z.infer<typeof UpdateBankAccountSchema>;

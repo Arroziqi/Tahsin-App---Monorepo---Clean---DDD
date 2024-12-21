@@ -13,7 +13,6 @@ import { AddLevelUsecase } from './domain/usecases/level/add-level.usecase';
 import { UpdateLevelUsecase } from './domain/usecases/level/update-level.usecase';
 import { DeleteLevelUsecase } from './domain/usecases/level/delete-level.usecase';
 import { GetAllLevelUsecase } from './domain/usecases/level/getAll-level.usecase';
-import { PrismaService } from 'src/common/services/prisma.service';
 import { LevelController } from './presentation/controllers/level/level.controller';
 import { EventPrismaDataSourcesImpl } from './data/datasources/event.prisma.datasources';
 import { ComponentPrismaDataSourcesImpl } from './data/datasources/component.prisma.datasources';
@@ -51,6 +50,7 @@ import { DeleteCourseFeeUsecase } from 'src/features/master-data/domain/usecases
 import { GetAllCourseFeeUsecase } from 'src/features/master-data/domain/usecases/course-fee/getAll-course-fee.usecase';
 import { BankAccountController } from 'src/features/master-data/presentation/controllers/bank-account/bank-account.controller';
 import { CourseFeeController } from 'src/features/master-data/presentation/controllers/course-fee/course-fee.controller';
+import { TimeService } from 'src/features/master-data/domain/services/time.service';
 
 @Module({
   controllers: [
@@ -106,7 +106,7 @@ import { CourseFeeController } from 'src/features/master-data/presentation/contr
     GetAllCourseFeeUsecase,
 
     // service
-    PrismaService,
+    TimeService,
 
     // Repository
     {

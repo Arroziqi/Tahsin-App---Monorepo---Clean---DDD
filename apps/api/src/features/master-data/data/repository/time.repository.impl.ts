@@ -3,12 +3,30 @@ import { TimeRepository } from '../../domain/repository/time.repository';
 import { DataState } from 'src/core/resources/data.state';
 import { TimeEntity } from '../../domain/entities/time.entity';
 import { TIME_REPO_TOKEN } from 'src/core/const/provider.token';
+import { SessionNameEnum } from 'src/core/types/enum/session-name.enum';
 
 @Injectable()
 export class TimeRepositoryImpl implements TimeRepository {
   constructor(
     @Inject(TIME_REPO_TOKEN) private readonly timeRepository: TimeRepository,
   ) {}
+
+  async findOverlappingTime(
+    time: TimeEntity,
+    includeSchedule?: boolean,
+  ): Promise<DataState<TimeEntity>> {
+    return await this.timeRepository.findOverlappingTime(time, includeSchedule);
+  }
+
+  async findByStartTime(
+    start_time: number,
+    includeSchedule?: boolean,
+  ): Promise<DataState<TimeEntity>> {
+    return await this.timeRepository.findByStartTime(
+      start_time,
+      includeSchedule,
+    );
+  }
 
   async findById(
     id: number,
@@ -17,11 +35,11 @@ export class TimeRepositoryImpl implements TimeRepository {
     return await this.timeRepository.findById(id, includeSchedule);
   }
 
-  async findByName(
-    name: string,
+  async findBySessionName(
+    name: SessionNameEnum,
     includeSchedule?: boolean,
   ): Promise<DataState<TimeEntity>> {
-    return await this.timeRepository.findByName(name, includeSchedule);
+    return await this.timeRepository.findBySessionName(name, includeSchedule);
   }
 
   async findAll(includeSchedule?: boolean): Promise<DataState<TimeEntity[]>> {
