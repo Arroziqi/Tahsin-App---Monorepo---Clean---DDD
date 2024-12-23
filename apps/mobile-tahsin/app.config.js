@@ -39,7 +39,7 @@ export default {
       supportsTablet: true,
       bundleIdentifier: getUniqueIdentifier(),
       buildNumber: "1",
-      runtimeVersion: "1.0.0", // Gunakan runtimeVersion yang valid
+      runtimeVersion: "1.0.0",
     },
     android: {
       adaptiveIcon: {
@@ -47,26 +47,15 @@ export default {
         backgroundColor: "#ffffff",
       },
       package: getUniqueIdentifier(),
-      versionCode: 1, // Pastikan ini integer
-      runtimeVersion: "1.0.0", // Gunakan runtimeVersion yang valid
+      versionCode: 1,
+      runtimeVersion: "1.0.0",
     },
     web: {
       bundler: "metro",
       output: "static",
       favicon: "./assets/images/favicon.png",
     },
-    plugins: [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          image: "./assets/images/splash-icon.png",
-          imageWidth: 200,
-          resizeMode: "contain",
-          backgroundColor: "#ffffff",
-        },
-      ],
-    ],
+    plugins: [],
     experiments: {
       typedRoutes: true,
     },
