@@ -16,6 +16,8 @@ async function bootstrap() {
 
   const appService = app.get(AppService);
 
+  app.enableCors();
+
   const primaryPort = appService.getPort() ?? 5000;
   const fallbackPort = 8080;
 
@@ -43,4 +45,5 @@ async function bootstrap() {
     }
   }
 }
+
 bootstrap();

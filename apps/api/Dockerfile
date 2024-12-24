@@ -2,11 +2,17 @@
 
 ARG NODE_VERSION=22.11.0
 
-FROM node:${NODE_VERSION}-alpine
+FROM node:${NODE_VERSION}-alpine as base
+
+LABEL fly_launch_runtime="NestJS"
+
+WORKDIR /app
 
 ENV NODE_ENV production
 
-WORKDIR /usr/src/app
+FROM base as build
+
+WORKDIR /app
 
 # Install dependencies
 RUN --mount=type=bind,source=package.json,target=package.json \
