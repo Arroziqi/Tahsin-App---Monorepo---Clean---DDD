@@ -33,6 +33,7 @@ import { CreateProfileUsecase } from './domain/usecases/profile/create.usecase';
 import { UpdateProfileUsecase } from './domain/usecases/profile/update.usecase';
 import { UpdateUserRoleUsecase } from 'src/features/user-management/domain/usecases/auth/update-role.usecase';
 import { AddUsersUsecase } from 'src/features/user-management/domain/usecases/auth/add-users.usecase';
+import { UserService } from 'src/features/user-management/domain/services/user.service';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { AddUsersUsecase } from 'src/features/user-management/domain/usecases/au
     UpdateUserRoleUsecase,
     DeleteUsecase,
     AddUsersUsecase,
+    UserService,
     CreateRoleUsecase,
     GetAllRoleUsecase,
     UpdateRoleUsecase,

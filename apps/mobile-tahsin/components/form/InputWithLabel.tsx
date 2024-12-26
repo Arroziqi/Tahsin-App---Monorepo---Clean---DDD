@@ -6,7 +6,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { StyleSheet, Text, View } from "react-native";
 
-type InputWithLabelProps = ThemedTextInputProps & {
+export type InputWithLabelProps = ThemedTextInputProps & {
   label: string;
   constraint?: string;
 };

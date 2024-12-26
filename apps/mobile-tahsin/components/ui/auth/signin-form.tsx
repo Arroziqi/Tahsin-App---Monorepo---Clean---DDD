@@ -1,14 +1,22 @@
 import React from "react";
 import { ThemedView } from "@/components/ThemedView";
-import InputWithLabel from "@/components/form/InputWithLabel";
 import { TextInputProps, View } from "react-native";
 import PrimaryButton from "@/components/buttons/primary-button";
 import { Colors } from "@/constants/Colors";
 import ErrorLabel from "@/components/form/error-label";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  SigninReqUserEntity,
+  SigninReqUserSchema,
+} from "@/libs/features/auth/domain/entities/signin-req-user.entity";
+import { SendReqSigninUserUsecase } from "@/libs/features/auth/domain/usecases/send-req-signin-user.usecase";
+import { Redirect } from "expo-router";
+import InputWithValidation from "@/components/form/input-with-validation";
 
-export type FormField = {
+type FormField = {
   label: string;
-  name: string;
+  name: keyof SigninReqUserEntity;
   type: TextInputProps["textContentType"];
   constraint?: string;
 };
@@ -27,58 +35,68 @@ const FORM_FIELD: FormField[] = [
 ];
 
 const SigninForm = () => {
-  const [error, setError] = React.useState<Error | null>(null);
-  const [payload, setPayload] = React.useState<Record<string, string>>({});
+  const [error, setError] = React.useState("");
+  const [isSubmitSuccessful, setIsSubmitSuccessful] = React.useState(false);
 
-  const isFormValid = FORM_FIELD.every(
-    (field) => payload[field.name] && payload[field.name].trim() !== "",
-  );
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<SigninReqUserEntity>({
+    resolver: zodResolver(SigninReqUserSchema),
+    mode: "onChange",
+  });
 
-  const handleInputChange = (name: string, value: string) => {
-    setPayload((prevPayload) => ({
-      ...prevPayload,
-      [name]: value,
-    }));
-  };
+  const onSubmit: SubmitHandler<SigninReqUserEntity> = async (
+    data: SigninReqUserEntity,
+  ) => {
+    console.log("Payload:", data);
 
-  const handleSubmit = () => {
-    if (!payload.username || !payload.password) {
-      setError(new Error("Username atau password tidak boleh kosong"));
-      return;
+    const sendReqSigninUserUsecase = new SendReqSigninUserUsecase();
+    const response = await sendReqSigninUserUsecase.execute(data);
+
+    if (response.data) {
+      console.log("Signin berhasil, respons:", response);
+      setError("");
+      setIsSubmitSuccessful(true);
+    } else {
+      setError(
+        response.errors.message
+          ? response.errors.message
+          : response.errors.error,
+      );
     }
-
-    setError(null);
-    console.log("Payload submitted:", payload);
   };
+
+  if (isSubmitSuccessful) {
+    return <Redirect href={"/home"} />;
+  }
 
   return (
     <View style={{ width: "80%" }}>
       <ThemedView style={{ gap: 24 }}>
-        {FORM_FIELD.map((field) => (
-          <InputWithLabel
-            label={field.label}
-            key={field.name}
-            type={field.type}
-            value={payload[field.name] || ""}
-            onChangeText={(value: string): void =>
-              handleInputChange(field.name, value)
-            }
+        {FORM_FIELD.map(({ constraint, label, name, type }: FormField) => (
+          <InputWithValidation
+            label={label}
+            control={control}
+            errors={errors}
+            constraint={constraint}
+            name={name}
+            type={type}
+            key={name}
           />
         ))}
       </ThemedView>
-      {error ? (
-        <ErrorLabel error={error.message} />
-      ) : (
-        <View style={{ height: 45 }} />
-      )}
+      {error ? <ErrorLabel error={error} /> : <View style={{ height: 45 }} />}
       <PrimaryButton
         width={"100%"}
         text={"Masuk"}
         color={"#fff"}
         backgroundColor={
-          (isFormValid ? Colors.primary.pMutedTeal : "#97B6BD") as string
+          (isValid ? Colors.primary.pMutedTeal : "#97B6BD") as string
         }
-        onPress={handleSubmit} // Trigger submission logic
+        onPress={handleSubmit(onSubmit)}
+        disabled={!isValid}
       />
     </View>
   );

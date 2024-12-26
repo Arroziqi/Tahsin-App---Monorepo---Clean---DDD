@@ -10,6 +10,13 @@ export abstract class UserRepositoryImpl implements UserRepository {
     @Inject(USER_REPO_TOKEN) private readonly userRepository: UserRepository,
   ) {}
 
+  async findByUsername(
+    username: string,
+    includeRole?: boolean,
+  ): Promise<DataState<UserEntity>> {
+    return await this.userRepository.findByUsername(username, includeRole);
+  }
+
   async findByEmail(
     email: string,
     includeRole?: boolean,

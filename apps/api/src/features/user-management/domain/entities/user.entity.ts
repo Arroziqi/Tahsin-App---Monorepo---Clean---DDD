@@ -1,7 +1,7 @@
 import { ProfileEntity } from './profile.entity';
 import { RoleEntity } from './role.entity';
 
-// import { RegistrationEntity } from "./registration.entity";
+// import { RegistrationEntity } from "./registration.entities";
 
 export class UserEntity {
   id: number;

@@ -31,5 +31,6 @@ export const Colors = {
     pMutedTeal: "#428594",
     pSteelBlue: "#649E97",
     pGrey: "#8789A3",
+    red: "#E33C3C",
   },
 };

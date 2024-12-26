@@ -13,6 +13,7 @@ export type ThemedTextInputProps = TextInputProps & {
   backgroundColor?: string;
   color?: string;
   type?: TextInputProps["textContentType"];
+  name?: string;
 };
 
 const ThemedTextInput = ({

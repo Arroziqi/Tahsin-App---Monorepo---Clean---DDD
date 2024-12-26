@@ -2,6 +2,11 @@ import { DataState } from 'src/core/resources/data.state';
 import { UserEntity } from '../entities/user.entity';
 
 export interface UserRepository {
+  findByUsername(
+    username: string,
+    includeRole?: boolean,
+  ): Promise<DataState<UserEntity>>;
+
   findByEmail(
     email: string,
     includeRole?: boolean,

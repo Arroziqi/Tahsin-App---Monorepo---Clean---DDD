@@ -5,6 +5,11 @@ import { PrismaService } from 'src/common/services/prisma.service';
 import { UserEntity } from 'src/features/user-management/domain/entities/user.entity';
 
 export interface PrismaDataSources {
+  findByUsername(
+    username: string,
+    includeRole?: boolean,
+  ): Promise<DataState<UserModel>>;
+
   findByEmail(
     email: string,
     includeRole?: boolean,
@@ -35,6 +40,38 @@ export class PrismaDataSourcesImpl implements PrismaDataSources {
   private readonly logger = new Logger(PrismaDataSourcesImpl.name);
 
   constructor(private prismaService: PrismaService) {}
+
+  async findByUsername(
+    username: string,
+    includeRole?: boolean,
+  ): Promise<DataState<UserModel>> {
+    try {
+      this.logger.debug(`Finding user by username: ${username}`);
+      const users = await this.prismaService.user.findFirst({
+        where: { username },
+        include: { role: includeRole },
+      });
+
+      if (!users) {
+        this.logger.debug(`No user found with username: ${username}`);
+        return { data: null, error: undefined };
+      }
+
+      this.logger.debug('User found successfully');
+      return {
+        data: new UserModel({
+          ...users,
+          role: includeRole ? users.role : undefined,
+        }),
+        error: undefined,
+      };
+    } catch (error) {
+      this.logger.error('Error finding user by username', {
+        error: error.message,
+      });
+      throw error;
+    }
+  }
 
   async findByEmail(
     email: string,

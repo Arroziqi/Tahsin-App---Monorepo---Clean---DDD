@@ -32,16 +32,16 @@ export class AuthService {
   }
 
   async validateLocalUser(
-    email: string,
+    username: string,
     password: string,
   ): Promise<DataState<UserModel>> {
-    this.logger.debug(`Validating user with email: ${email}`);
+    this.logger.debug(`Validating user with username: ${username}`);
 
     try {
-      const user = await this.userRepository.findByEmail(email, true);
+      const user = await this.userRepository.findByUsername(username, true);
 
       if (!user.data) {
-        this.logger.warn(`User not found with email: ${email}`);
+        this.logger.warn(`User not found with username: ${username}`);
         throw new UnauthorizedException('User not found!');
       }
 
@@ -51,7 +51,7 @@ export class AuthService {
       );
 
       if (!isPasswordValid) {
-        this.logger.warn(`Invalid password attempt for email: ${email}`);
+        this.logger.warn(`Invalid password attempt for username: ${username}`);
         throw new UnauthorizedException('Invalid credentials!');
       }
 

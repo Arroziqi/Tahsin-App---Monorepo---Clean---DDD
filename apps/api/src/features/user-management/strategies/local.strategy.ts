@@ -11,18 +11,21 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
   constructor(private readonly authService: AuthService) {
     super({
-      usernameField: 'email',
+      usernameField: 'username',
     });
     this.logger.log('LocalStrategy initialized');
   }
 
   async validate(
-    email: string,
+    username: string,
     password: string,
   ): Promise<DataState<UserEntity>> {
-    this.logger.debug(`Attempting to validate user with email: ${email}`);
+    this.logger.debug(`Attempting to validate user with username: ${username}`);
     try {
-      const result = await this.authService.validateLocalUser(email, password);
+      const result = await this.authService.validateLocalUser(
+        username,
+        password,
+      );
       this.logger.debug('User validation completed');
       return result;
     } catch (error) {

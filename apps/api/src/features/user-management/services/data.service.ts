@@ -7,7 +7,7 @@ export class DataService {
   private readonly logger = new Logger(DataService.name);
 
   mapDataModelToEntity(dataModel: UserModel): UserEntity {
-    this.logger.debug('Mapping user model to entity');
+    this.logger.debug('Mapping user model to entities');
     return new UserEntity(dataModel);
   }
 }
